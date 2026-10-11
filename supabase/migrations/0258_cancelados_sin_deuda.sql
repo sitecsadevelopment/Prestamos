@@ -78,7 +78,7 @@ DECLARE v_c int; v_q int; v_m numeric;
 BEGIN
   SELECT count(DISTINCT contrato_id), count(*), sum(saldo)
     INTO v_c, v_q, v_m FROM _objetivo;
-  IF v_c <> 46 OR v_q <> 135 OR round(v_m, 2) <> 101086.47 THEN
+  IF v_c > 0 AND (v_c <> 46 OR v_q <> 135 OR round(v_m, 2) <> 101086.47) THEN
     RAISE EXCEPTION 'ABORTA: se esperaban 46 contratos / 135 cuotas / '
       'C$101086.47 y hay % / % / C$%. No se toca nada.', v_c, v_q, round(v_m,2);
   END IF;

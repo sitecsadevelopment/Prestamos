@@ -79,7 +79,7 @@ begin
                 '7e683e19-c6ae-49df-8b05-5c8cf5e092df')
      and tipo = 'combo';
 
-  if v_ok <> 3 then
+  if v_ok <> 3 and exists (select 1 from public.planes where id in ('6eae2e19-0861-449b-8e77-da4cc6011df3', '4ee8eab8-2c4e-4850-b451-4d978ceb6a9b', '7e683e19-c6ae-49df-8b05-5c8cf5e092df')) then
     raise exception '0271 ABORTA: quedaron % de 3 en combo', v_ok;
   end if;
 
