@@ -28,10 +28,10 @@ jobs:
           @'
           {
             "UPDATE_REPO": "sitecsadevelopment/Prestamos",
-            "SUPABASE_URL": "https://vowjhcekftogpuucoorl.supabase.co",
-            "SUPABASE_ANON_KEY": "sb_publishable_l8o4VaOAZoEF0fwkamxwvw_YhqUZw2_",
-            "POWERSYNC_URL": "https://6a80ff94f16f9067844280a4.powersync.journeyapps.com",
-            "POWERSYNC_TOKEN_ENDPOINT": "https://vowjhcekftogpuucoorl.supabase.co/functions/v1/powersync-auth"
+            "SUPABASE_URL": "https://ucpsbxyjsiaoertcdvox.supabase.co",
+            "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjcHNieHlqc2lhb2VydGNkdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NDY2MDgsImV4cCI6MjEwNzMyMjYwOH0.EqOqcIodMkP0009AbUYr1M3fa6gXv29-3eYwMVLj74Y",
+            "POWERSYNC_URL": "https://6acc0cabf0708554f16dab73.powersync.journeyapps.com",
+            "POWERSYNC_TOKEN_ENDPOINT": "https://ucpsbxyjsiaoertcdvox.supabase.co/functions/v1/powersync-auth"
           }
           '@ | Set-Content -Path .env.json -Encoding utf8
 
@@ -82,10 +82,10 @@ jobs:
           cat << 'EOF' > .env.json
           {
             "UPDATE_REPO": "sitecsadevelopment/Prestamos",
-            "SUPABASE_URL": "https://vowjhcekftogpuucoorl.supabase.co",
-            "SUPABASE_ANON_KEY": "sb_publishable_l8o4VaOAZoEF0fwkamxwvw_YhqUZw2_",
-            "POWERSYNC_URL": "https://6a80ff94f16f9067844280a4.powersync.journeyapps.com",
-            "POWERSYNC_TOKEN_ENDPOINT": "https://vowjhcekftogpuucoorl.supabase.co/functions/v1/powersync-auth"
+            "SUPABASE_URL": "https://ucpsbxyjsiaoertcdvox.supabase.co",
+            "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjcHNieHlqc2lhb2VydGNkdm94Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NDY2MDgsImV4cCI6MjEwNzMyMjYwOH0.EqOqcIodMkP0009AbUYr1M3fa6gXv29-3eYwMVLj74Y",
+            "POWERSYNC_URL": "https://6acc0cabf0708554f16dab73.powersync.journeyapps.com",
+            "POWERSYNC_TOKEN_ENDPOINT": "https://ucpsbxyjsiaoertcdvox.supabase.co/functions/v1/powersync-auth"
           }
           EOF
 

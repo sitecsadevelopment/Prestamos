@@ -11,7 +11,7 @@ class Env {
   );
   static const powersyncUrl = String.fromEnvironment(
     'POWERSYNC_URL',
-    defaultValue: 'https://6a80ff94f16f9067844280a4.powersync.journeyapps.com',
+    defaultValue: 'https://6acc0cabf0708554f16dab73.powersync.journeyapps.com',
   );
   static const powersyncTokenEndpoint = String.fromEnvironment(
     'POWERSYNC_TOKEN_ENDPOINT',
