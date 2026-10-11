@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="720" viewBox="0 0 720 720" role="img">
+<rect width="720" height="720" fill="#F8F9FA" rx="10" stroke="#DADCE0"/>
+<text x="16" y="26" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#1F1F1F" font-weight="600" text-anchor="start" >Editar la ficha o desactivar un cliente</text>
+<text x="16" y="46" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#5F6368" font-weight="400" text-anchor="start" >Quién puede: admin / admin de cobranza (desactivar: solo admin)</text>
+<circle cx="28" cy="70" r="11" fill="#E8F0FE"/>
+<text x="28" y="74" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#1A73E8" font-weight="600" text-anchor="middle" >1</text>
+<text x="56" y="74" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" fill="#1F1F1F" font-weight="600" text-anchor="start" >Abrí el cliente y tocá el lápiz del encabezado («Editar cliente»)</text>
+<rect x="56" y="82" width="652" height="56" rx="10" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<line x1="56" y1="132" x2="708" y2="132" stroke="#DADCE0" stroke-width="0.8"/>
+<path d="M78 105 L73 110 L78 115" stroke="#1F1F1F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="96" y="114.5" font-family="Segoe UI, Arial, sans-serif" font-size="13.5" fill="#1F1F1F" font-weight="600" text-anchor="start" >María Peña Ruíz</text>
+<circle cx="680" cy="110" r="6" stroke="#5F6368" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M680 107 V110 L682.5 111.5" stroke="#5F6368" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M643 115 L643 112.5 L650.5 105 L653 107.5 L645.5 115 Z" stroke="#5F6368" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M612 104 H618 L621 107 V116 H612 Z" stroke="#5F6368" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M614 110 H619 M614 113 H619" stroke="#5F6368" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="555.5" y="114" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#1A73E8" font-weight="500" text-anchor="middle" >+ Cobro extra</text>
+<circle cx="28" cy="164" r="11" fill="#E8F0FE"/>
+<text x="28" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#1A73E8" font-weight="600" text-anchor="middle" >2</text>
+<text x="56" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" fill="#1F1F1F" font-weight="600" text-anchor="start" >Cambiá lo que necesites → «Guardar cambios»</text>
+<rect x="56" y="176" width="652" height="96" rx="10" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<rect x="68" y="191" width="628" height="32" rx="8" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<rect x="78" y="186" width="49" height="10" rx="2" fill="#FFFFFF"/>
+<text x="82" y="194" font-family="Segoe UI, Arial, sans-serif" font-size="9.5" fill="#5F6368" font-weight="400" text-anchor="start" >Teléfono</text>
+<text x="80" y="211.5" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#1F1F1F" font-weight="400" text-anchor="start" >8899-4455  (actualizado)</text>
+<rect x="68" y="233" width="75" height="28" rx="14" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<text x="105.5" y="251.5" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#1A73E8" font-weight="500" text-anchor="middle" >Cancelar</text>
+<rect x="153" y="233" width="117" height="28" rx="14" fill="#1A73E8"/>
+<text x="211.5" y="251.5" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#FFFFFF" font-weight="500" text-anchor="middle" >Guardar cambios</text>
+<circle cx="28" cy="298" r="11" fill="#E8F0FE"/>
+<text x="28" y="302" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#1A73E8" font-weight="600" text-anchor="middle" >3</text>
+<text x="56" y="302" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" fill="#1F1F1F" font-weight="600" text-anchor="start" >Para dar de baja: sección «Estado» → apagá el interruptor</text>
+<rect x="56" y="310" width="652" height="82" rx="10" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<text x="70" y="337.5" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" fill="#1F1F1F" font-weight="400" text-anchor="start" >Cliente activo</text>
+<rect x="660" y="324.0" width="34" height="18" rx="9" fill="#BDC1C6"/>
+<circle cx="669" cy="333.0" r="7" fill="#FFFFFF"/>
+<line x1="68" y1="387" x2="696" y2="387" stroke="#EEEEEE" stroke-width="0.8"/>
+<text x="70" y="373.2" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" fill="#1F1F1F" font-weight="400" text-anchor="start" >Da por terminada la relación: sus contratos vivos se CANCELAN y la deuda se CONDONA.</text>
+<circle cx="28" cy="418" r="11" fill="#E8F0FE"/>
+<text x="28" y="422" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#1A73E8" font-weight="600" text-anchor="middle" >4</text>
+<text x="56" y="422" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" fill="#1F1F1F" font-weight="600" text-anchor="start" >La app te muestra cuánto se condona y te pide el motivo</text>
+<rect x="56" y="430" width="652" height="199" rx="10" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<rect x="122.0" y="441" width="520" height="177" rx="16" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<text x="144.0" y="467" font-family="Segoe UI, Arial, sans-serif" font-size="14.5" fill="#1F1F1F" font-weight="600" text-anchor="start" >¿Desactivar a María Peña Ruíz?</text>
+<text x="144.0" y="488" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#5F6368" font-weight="400" text-anchor="start" >Sus contratos vivos pasan a CANCELADO y toda la deuda pendiente se CONDONA.</text>
+<text x="144.0" y="503" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#5F6368" font-weight="400" text-anchor="start" >Lo ya pagado queda como histórico. Si le vas a seguir cobrando, dejalo</text>
+<text x="144.0" y="518" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#5F6368" font-weight="400" text-anchor="start" >activo y suspendé el contrato.</text>
+<rect x="144.0" y="528" width="476" height="32" rx="8" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1"/>
+<text x="154.0" y="547.5" font-family="Segoe UI, Arial, sans-serif" font-size="10.5" fill="#5F6368" font-weight="400" text-anchor="start" font-style="italic">Motivo (obligatorio) — Ej. se mudó, ya no es cliente</text>
+<rect x="535.0" y="574" width="87" height="28" rx="14" fill="#C5221F"/>
+<text x="578.5" y="592.5" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#FFFFFF" font-weight="500" text-anchor="middle" >Desactivar</text>
+<text x="497.5" y="592.5" font-family="Segoe UI, Arial, sans-serif" font-size="11.5" fill="#1A73E8" font-weight="500" text-anchor="middle" >Volver</text>
+<rect x="16" y="643" width="688" height="59" rx="8" fill="#E8F0FE"/>
+<text x="28" y="662" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#174EA6" font-weight="400" text-anchor="start" >Nota: Desactivar es una decisión de plata, así que salvo el admin todos la SOLICITAN y el admin</text>
+<text x="28" y="677" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#174EA6" font-weight="400" text-anchor="start" >la aprueba (ve el mismo monto antes de decidir). Lo ya pagado nunca se toca: queda como</text>
+<text x="28" y="692" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#174EA6" font-weight="400" text-anchor="start" >histórico. Reactivar sí es directo. Todo queda en el historial (ícono del reloj).</text>
+</svg>
