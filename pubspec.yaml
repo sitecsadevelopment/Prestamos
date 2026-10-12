@@ -1,7 +1,7 @@
 name: prestamo
 description: App de gestión de clientes y cobros para préstamos y microfinanzas (Nicaragua) — offline-first con PowerSync.
 publish_to: 'none'
-version: 0.45.12+344
+version: 1.0.0+1
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
