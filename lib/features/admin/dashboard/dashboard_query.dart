@@ -968,9 +968,7 @@ ConsultaSql serieRecaudoMora({
         COALESCE(SUM(CASE WHEN en_mora = 0 THEN saldo ELSE 0 END), 0) AS porrec
       FROM (
         SELECT
-          CASE WHEN CAST(strftime('%d', cu.fecha_vencimiento) AS INTEGER) >= 15
-               THEN strftime('%Y-%m', date(cu.fecha_vencimiento, 'start of month', '+1 month'))
-               ELSE strftime('%Y-%m', cu.fecha_vencimiento) END AS ciclo,
+          strftime('%Y-%m', cu.fecha_vencimiento) AS ciclo,
           cu.monto + COALESCE(cu.cargos_neto, 0) AS fact,
           COALESCE(cu.monto_pagado, 0) AS entro,
           $saldoCanonico AS saldo,
@@ -993,10 +991,7 @@ ConsultaSql serieRecaudoMora({
 /// Se escribe una vez acá porque las dos consultas de Mora tienen que agrupar
 /// EXACTAMENTE igual; si una usara el mes calendario, la barra y la tabla
 /// hablarían de ciclos distintos.
-const String _cicloDeVencimiento = '''
-    CASE WHEN CAST(strftime('%d', cu.fecha_vencimiento) AS INTEGER) >= 15
-         THEN date(cu.fecha_vencimiento, 'start of month', '+1 month')
-         ELSE date(cu.fecha_vencimiento, 'start of month') END''';
+const String _cicloDeVencimiento = "date(cu.fecha_vencimiento, 'start of month')";
 
 /// El universo de mora de una cuota, en forma de sub-SELECT reusable.
 ///

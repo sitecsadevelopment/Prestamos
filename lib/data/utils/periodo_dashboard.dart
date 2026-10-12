@@ -1,19 +1,10 @@
 import 'formatters.dart';
 
-/// Ventana de reporte del dashboard: **del día 15 de un mes al 14 del
-/// siguiente** (el fin es EXCLUSIVO = 15 del mes de cierre).
+/// Ventana de reporte del dashboard: **mes calendario completo** (del día 1
+/// al último día del mes; el fin es EXCLUSIVO = día 1 del mes siguiente).
 ///
-/// Es el ciclo con el que el negocio lee sus cobros y NO es el mes calendario:
-/// el período "julio" va del 15 jun al 14 jul. Vivía privado dentro de
-/// `tendencia_cobros_card.dart`, así que las gráficas cortaban por el 15 y los
-/// KPIs por el día 1 — dos ventanas distintas en la misma pantalla, con
-/// números que no cerraban entre sí. Desde 2026-07-26 lo comparten TODAS las
-/// secciones de Resumen que tienen ventana mensual.
-///
-/// OJO — esto es reportería de COBROS, no clasificación de servicio. La regla
-/// #1c de AGENTS (anclar al `dia_pago` del contrato, nunca al mes calendario)
-/// aplica al prorrateo y al ciclo de un contrato; esta ventana es un corte
-/// administrativo único para todo el tenant y no toca esa lógica.
+/// Todas las cuotas que vencen en un mes calendario se agrupan en ese mismo mes,
+/// sin cortes desplazados del 15 al 14.
 const kMesesCortosPeriodo = [
   'ene', 'feb', 'mar', 'abr', 'may', 'jun',
   'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
@@ -21,25 +12,19 @@ const kMesesCortosPeriodo = [
 
 String mesCortoPeriodo(int mes) => kMesesCortosPeriodo[(mes - 1) % 12];
 
-/// Primer día (inclusivo) del período [mes]/[anio]: el 15 del mes anterior.
-DateTime inicioPeriodo(int anio, int mes) => DateTime(anio, mes - 1, 15);
+/// Primer día (inclusivo) del período [mes]/[anio]: el día 1 del propio mes.
+DateTime inicioPeriodo(int anio, int mes) => DateTime(anio, mes, 1);
 
-/// Fin EXCLUSIVO del período [mes]/[anio]: el 15 del propio mes (el último día
-/// cubierto es el 14).
-DateTime finPeriodo(int anio, int mes) => DateTime(anio, mes, 15);
+/// Fin EXCLUSIVO del período [mes]/[anio]: el día 1 del mes siguiente.
+DateTime finPeriodo(int anio, int mes) => DateTime(anio, mes + 1, 1);
 
-/// Mes de período que contiene [dia]: del 15 en adelante ya se cuenta contra el
-/// período del mes siguiente.
-DateTime periodoDe(DateTime dia) => dia.day >= 15
-    ? DateTime(dia.year, dia.month + 1, 1)
-    : DateTime(dia.year, dia.month, 1);
+/// Mes de período que contiene [dia]: el propio mes calendario de [dia].
+DateTime periodoDe(DateTime dia) => DateTime(dia.year, dia.month, 1);
 
-/// Etiqueta legible del rango, ej. "15 jun – 14 jul".
+/// Etiqueta legible del rango, ej. "1 – 31 oct".
 String periodoLabel(int anio, int mes) {
-  final ini = inicioPeriodo(anio, mes);
-  final fin = DateTime(anio, mes, 14);
-  return '${ini.day} ${mesCortoPeriodo(ini.month)} – '
-      '${fin.day} ${mesCortoPeriodo(fin.month)}';
+  final fin = DateTime(anio, mes + 1, 0);
+  return '1 – ${fin.day} ${mesCortoPeriodo(mes)}';
 }
 
 /// Ventana del período en curso, anclada al día de Nicaragua (UTC-6).
@@ -48,7 +33,7 @@ String periodoLabel(int anio, int mes) {
   return (inicio: inicioPeriodo(p.year, p.month), fin: finPeriodo(p.year, p.month));
 }
 
-/// Etiqueta del período en curso, ej. "15 jun – 14 jul".
+/// Etiqueta del período en curso, ej. "1 – 31 oct".
 String periodoLabelActual() {
   final p = periodoDe(Fmt.hoyNicaragua());
   return periodoLabel(p.year, p.month);

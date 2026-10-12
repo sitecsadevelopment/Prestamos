@@ -217,12 +217,8 @@ const _sqlHoyNi = "date('now','-6 hours')";
 const _sqlInicioSemanaNi =
     "date('now','-6 hours','-' || strftime('%w','now','-6 hours') || ' days')";
 
-/// Día 15 que abre el ciclo en curso (ver `periodo_dashboard.dart`): del 15 en
-/// adelante es el 15 de este mes; antes del 15, el 15 del mes pasado.
-const _sqlInicioPeriodoNi =
-    "CASE WHEN CAST(strftime('%d','now','-6 hours') AS INTEGER) >= 15 "
-    "THEN date('now','-6 hours','start of month','+14 days') "
-    "ELSE date('now','-6 hours','start of month','-1 month','+14 days') END";
+/// Primer día del mes calendario en curso (ver `periodo_dashboard.dart`).
+const _sqlInicioPeriodoNi = "date('now','-6 hours','start of month')";
 
 class CobrosRangoCustom {
   const CobrosRangoCustom({required this.total, required this.qty});
