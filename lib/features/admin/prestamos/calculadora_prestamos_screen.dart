@@ -203,7 +203,7 @@ class _CalculadoraPrestamosScreenState
   void _copiarResumen() {
     final buffer = StringBuffer();
     buffer.writeln('=================================');
-    buffer.writeln('COTIZACIÓN DE PRÉSTAMO - FINDEX');
+    buffer.writeln('COTIZACIÓN DE PRÉSTAMO - PRESTAMOS SITECSA');
     buffer.writeln('=================================');
     buffer.writeln('Monto Prestado: ${_formatearMonto(_monto)}');
     buffer.writeln('Tasa de Interés: $_tasaInteres% ${_tasaEsMensual ? "por período" : "total"}');
@@ -297,82 +297,128 @@ class _CalculadoraPrestamosScreenState
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x06000000),
-            blurRadius: 8,
-            offset: Offset(0, 3),
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE6FFFA),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.calculate_outlined,
-              color: Color(0xFF0F766E),
-              size: 28,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Calculadora de Préstamos',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E293B),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Simulación de cuotas, intereses y cronograma de amortización.',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          IconButton.outlined(
-            tooltip: 'Restablecer valores',
-            onPressed: _reiniciarValores,
-            icon: const Icon(Icons.refresh, size: 20),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.grey.shade700,
-              side: const BorderSide(color: Color(0xFFCBD5E1)),
-            ),
-          ),
-          const SizedBox(width: 8),
-          FilledButton.icon(
-            onPressed: _copiarResumen,
-            icon: const Icon(Icons.copy, size: 16),
-            label: const Text('Copiar Cotización'),
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF0F766E),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final esMovil = constraints.maxWidth < 650;
+
+        final infoWidget = Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE6FFFA),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.calculate_outlined,
+                color: Color(0xFF0F766E),
+                size: 26,
               ),
             ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Calculadora de Préstamos',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E293B),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Simulación de cuotas, intereses y cronograma.',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+
+        final botonesWidget = Row(
+          mainAxisSize: esMovil ? MainAxisSize.max : MainAxisSize.min,
+          children: [
+            IconButton.outlined(
+              tooltip: 'Restablecer valores',
+              onPressed: _reiniciarValores,
+              icon: const Icon(Icons.refresh, size: 20),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey.shade700,
+                side: const BorderSide(color: Color(0xFFCBD5E1)),
+                padding: const EdgeInsets.all(10),
+              ),
+            ),
+            const SizedBox(width: 8),
+            esMovil
+                ? Expanded(
+                    child: FilledButton.icon(
+                      onPressed: _copiarResumen,
+                      icon: const Icon(Icons.copy, size: 16),
+                      label: const Text('Copiar Cotización'),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xFF0F766E),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  )
+                : FilledButton.icon(
+                    onPressed: _copiarResumen,
+                    icon: const Icon(Icons.copy, size: 16),
+                    label: const Text('Copiar Cotización'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xFF0F766E),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+          ],
+        );
+
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x06000000),
+                blurRadius: 8,
+                offset: Offset(0, 3),
+              )
+            ],
           ),
-        ],
-      ),
+          child: esMovil
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    infoWidget,
+                    const SizedBox(height: 14),
+                    botonesWidget,
+                  ],
+                )
+              : Row(
+                  children: [
+                    Expanded(child: infoWidget),
+                    const SizedBox(width: 12),
+                    botonesWidget,
+                  ],
+                ),
+        );
+      },
     );
   }
 
