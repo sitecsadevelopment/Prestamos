@@ -40,7 +40,7 @@ const int kCiclosMora = 6;
 // ── Paleta PROPIA de esta tarjeta ──
 // Coinciden con las de Cobertura a propósito (verde = entró, rojo = falta), pero
 // se declaran acá: cambiarlas no debe alcanzar a la otra tarjeta.
-const _azul = Color(0xFF185FA5);
+const _azul = Color(0xFF0D8249); // Verde dinero
 const _verde = Color(0xFF1D9E75);
 const _rojo = Color(0xFFE24B4A);
 const _ambar = Color(0xFFD98829);

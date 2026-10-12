@@ -144,7 +144,7 @@ class DashboardCarteraScreen extends ConsumerWidget {
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF2980B9),
+                            color: Color(0xFF0D8249),
                           ),
                         ),
                       ],
@@ -200,7 +200,7 @@ class DashboardCarteraScreen extends ConsumerWidget {
                     child: _MetricCard(
                       label: 'Activos',
                       value: '${cartera.activosCount} — ${Fmt.cordobas(cartera.activosMonto)}',
-                      indicatorColor: const Color(0xFF2980B9),
+                      indicatorColor: const Color(0xFF0D8249),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -279,7 +279,7 @@ class DashboardCarteraScreen extends ConsumerWidget {
                 icon: Icons.payments_outlined,
                 title: 'Desembolsos Hoy',
                 count: '${cartera.desembolsosHoyCount} — ${Fmt.cordobas(cartera.desembolsosHoyMonto)}',
-                color: const Color(0xFF2980B9),
+                color: const Color(0xFF0D8249),
               ),
               const SizedBox(height: 24),
 
@@ -312,7 +312,7 @@ class DashboardCarteraScreen extends ConsumerWidget {
                       title: 'CAJA',
                       items: [
                         _CajaRow('Caja inicial', Fmt.cordobas(caja.cajaInicial), const Color(0xFF8E44AD), isBold: true),
-                        _CajaRow('Capital aportado', Fmt.cordobas(caja.capitalAportado), const Color(0xFF2980B9)),
+                        _CajaRow('Capital aportado', Fmt.cordobas(caja.capitalAportado), const Color(0xFF0D8249)),
                         _CajaRow('+ Ingresos netos', Fmt.cordobas(caja.ingresosNetos), const Color(0xFF27AE60)),
                         _CajaRow('- Egresos', Fmt.cordobas(caja.egresos), const Color(0xFFC0392B)),
                         _CajaRow('= Caja actual', Fmt.cordobas(caja.cajaActual), const Color(0xFF8E44AD), isBold: true),
@@ -341,7 +341,7 @@ class DashboardCarteraScreen extends ConsumerWidget {
                       title: 'CAJA DE PRÉSTAMOS',
                       amount: Fmt.cordobas(caja.cajaPrestamos),
                       subtitle: 'Disponible para prestar',
-                      amountColor: const Color(0xFF2980B9),
+                      amountColor: const Color(0xFF0D8249),
                     ),
                   ),
                 ],

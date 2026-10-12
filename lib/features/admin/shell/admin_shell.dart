@@ -405,7 +405,7 @@ const _adminMenu = [
   // update. Ojo: el guard REAL vive en el router (`soloAdmin`), este flag solo
   // esconde la card — sin el del router se entra igual tipeando la URL.
   _MenuItem(Icons.space_dashboard, 'Resumen', '/admin/resumen',
-      color: Color(0xFF185FA5), adminOnly: true),
+      color: Color(0xFF0D8249), adminOnly: true),
   _MenuItem(Icons.groups, 'Clientes', '/admin/clientes',
       color: Color(0xFF0F6E56)),
   _MenuItem(Icons.calculate_outlined, 'Calculadora', '/admin/calculadora-prestamos',
@@ -455,7 +455,7 @@ const _adminMenu = [
       color: Color(0xFFA32D2D), adminOnly: true, moduloKey: 'tickets'),
   _MenuItem(Icons.insert_chart, 'Reportes', '/admin/reportes',
       color: Color(0xFF993C1D)),
-  _MenuItem(Icons.pin_drop, 'Mapa', '/admin/mapa', color: Color(0xFF185FA5)),
+  _MenuItem(Icons.pin_drop, 'Mapa', '/admin/mapa', color: Color(0xFF0D8249)),
   _MenuItem(Icons.settings, 'Configuración', '/admin/settings',
       color: Color(0xFF5F5E5A), adminOnly: true),
   _MenuItem(Icons.shield, 'Tenants', '/super/tenants',

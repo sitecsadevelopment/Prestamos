@@ -1948,7 +1948,7 @@ class _TablaSummaryState extends State<_TablaSummary> {
                       d.parciales, null, d.parcialesMonto,
                       sub: true, nivel2: true, conteoEntreParentesis: true),
                 if (d.credito > 0)
-                  fila3('saldada con crédito', const Color(0xFF185FA5),
+                  fila3('saldada con crédito', const Color(0xFF0D8249),
                       d.credito, null, 0,
                       sub: true, nivel2: true),
               ],

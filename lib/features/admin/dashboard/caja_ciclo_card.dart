@@ -24,7 +24,7 @@ import 'resumen_watch.dart';
 /// rápida; el detalle exportable vive en las otras.
 
 // ── Paleta PROPIA ──
-const _azul = Color(0xFF185FA5);
+const _azul = Color(0xFF0D8249); // Verde dinero
 
 /// Cuántas opciones hacia atrás ofrece cada bloque.
 const _kDias = 7, _kSemanas = 6, _kPeriodos = 6;
@@ -765,7 +765,7 @@ class _DesgloseCuerpo extends ConsumerWidget {
                         const Color(0xFFE24B4A)),
                   if (d.adelantos > 0)
                     linea('Adelantos de ciclos siguientes', d.adelantos,
-                        const Color(0xFF185FA5)),
+                        const Color(0xFF0D8249)),
                   if (d.sinCuota > 0)
                     linea('Cobros puntuales (sin cuota)', d.sinCuota,
                         const Color(0xFFD98829)),

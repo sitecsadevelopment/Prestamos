@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 /// Paleta del CRM — iOS-inspired, light-only.
 class AppColors {
   // Primarios
-  static const primary = Color(0xFF007AFF);        // Azul celeste iOS
+  static const primary = Color(0xFF0D8249);        // Verde dinero / financiero
   static const onPrimary = Colors.white;
 
   // Fondos
   static const background = Color(0xFFFAFAFC);      // Fondo principal (off-white)
   static const surface = Colors.white;               // Cards, dialogs
-  static const surfaceContainer = Color(0xFFF2F2F7); // Sidebar, containers
-  static const surfaceContainerHigh = Color(0xFFE5E5EA); // Bordes, dividers
+  static const surfaceContainer = Color(0xFFF2F4F3); // Sidebar, containers
+  static const surfaceContainerHigh = Color(0xFFE5EAE7); // Bordes, dividers
 
   // Texto
   static const textPrimary = Color(0xFF1C1C1E);     // Texto principal

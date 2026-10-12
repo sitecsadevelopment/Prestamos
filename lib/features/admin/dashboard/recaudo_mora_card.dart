@@ -46,7 +46,7 @@ const double kMetaRecaudoPct = 1.0;
 /// del mockup aprobado, no una decisión de producto.
 const double kLimiteMoraPct = 0.10;
 
-const _cRec = Color(0xFF4E8EF7);
+const _cRec = Color(0xFF0D8249); // Verde dinero recaudado
 const _cMeta = Color(0xFF66BB6A);
 const _cMora = Color(0xFFEF9F27);
 const _cLimite = Color(0xFFF06292);
