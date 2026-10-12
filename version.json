@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "release_notes": "v1.0.0 - Versión inicial de la aplicación Prestamos.",
+  "version": "1.0.2",
+  "release_notes": "v1.0.2 - Actualización con ventana Prestamos Sitecsa, remoción de Planes y usuario prestamos super_admin.",
   "download_url_windows": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix",
   "download_url_android": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.apk",
   "download_url": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix"
