@@ -1,7 +1,7 @@
 name: prestamo
-description: App de gestión de clientes y cobros para préstamos y microfinanzas (Nicaragua) — offline-first con PowerSync.
+description: App de gestiÃ³n de clientes y cobros para prÃ©stamos y microfinanzas (Nicaragua) â€” offline-first con PowerSync.
 publish_to: 'none'
-version: 1.0.4+5
+version: 1.0.5+6
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # main.dart usa url_strategy (antes resolvia por transitiva — audit LOW).
+  # main.dart usa url_strategy (antes resolvia por transitiva â€” audit LOW).
   flutter_web_plugins:
     sdk: flutter
   flutter_localizations:
@@ -30,7 +30,7 @@ dependencies:
   # Storage / config
   shared_preferences: ^2.3.0
   path_provider: ^2.1.4
-  # Lee la versión de la app (pubspec version) para anexar al error log
+  # Lee la versiÃ³n de la app (pubspec version) para anexar al error log
   # y poder correlacionar crashes con builds desplegados.
   package_info_plus: ^8.0.2
 
@@ -43,17 +43,17 @@ dependencies:
   collection: ^1.18.0
 
   # Mapas (flutter_map + OSM, gratis sin API key). geolocator se reinstala para
-  # la feature de ubicación actual del cobrador en tiempo real.
+  # la feature de ubicaciÃ³n actual del cobrador en tiempo real.
   geolocator: ^13.0.2
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
   sqlite3: ^2.4.0
   sqlite3_flutter_libs: ^0.5.24
 
-  # Caché en disco de los tiles del mapa (offline mientras navegás) en
+  # CachÃ© en disco de los tiles del mapa (offline mientras navegÃ¡s) en
   # Android + Windows. flutter_map_cache envuelve el tileProvider; el store
-  # de archivos persiste cada tile bajado. Versión pineada a la línea
-  # compatible con flutter_map 7 (la 10.x de FMTC exigiría flutter_map 8).
+  # de archivos persiste cada tile bajado. VersiÃ³n pineada a la lÃ­nea
+  # compatible con flutter_map 7 (la 10.x de FMTC exigirÃ­a flutter_map 8).
   # Ver lib/data/services/map_tile_cache.dart.
   flutter_map_cache: ^2.1.0
   http_cache_file_store: ^2.0.1
@@ -62,14 +62,14 @@ dependencies:
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
 
-  # Escaneo de código de barras / QR de seriales (cámara). Solo Android/iOS;
-  # en Windows/web el botón de escanear se oculta (cae a tipeo manual).
+  # Escaneo de cÃ³digo de barras / QR de seriales (cÃ¡mara). Solo Android/iOS;
+  # en Windows/web el botÃ³n de escanear se oculta (cae a tipeo manual).
   mobile_scanner: ^5.2.3
 
   # File picker (documentos PDF/Word del contrato)
   file_picker: ^8.1.2
 
-  # Impresión Bluetooth térmica (57mm / 80mm) — soporta ESC/POS.
+  # ImpresiÃ³n Bluetooth tÃ©rmica (57mm / 80mm) â€” soporta ESC/POS.
   # Sustituye esc_pos_bluetooth (conflicto rxdart con supabase_flutter).
   print_bluetooth_thermal: ^1.1.0
   # Genera comandos ESC/POS (puro Dart, sin platform deps).
@@ -83,11 +83,11 @@ dependencies:
   # App Installer del .msix (Windows). Sin config manual de provider.
   open_filex: ^4.5.0
 
-  # Generación y descarga/impresión de reportes PDF
+  # GeneraciÃ³n y descarga/impresiÃ³n de reportes PDF
   pdf: ^3.11.1
   printing: ^5.13.3
 
-  # Generación de reportes en Excel (.xlsx). Dart puro, sin código nativo —
+  # GeneraciÃ³n de reportes en Excel (.xlsx). Dart puro, sin cÃ³digo nativo â€”
   # anda en Android/Windows/web. La descarga del archivo usa file_picker
   # (ya declarado arriba). Ver lib/features/admin/reportes/excel/reporte_excel.dart.
   excel: ^4.0.6
@@ -95,14 +95,14 @@ dependencies:
   # la declaramos directa para importarla de forma estable.
   archive: ^3.6.1
 
-  # Decodificar/convertir el logo a raster monocromo para la térmica (ESC/POS)
-  # y para procesar imágenes. esc_pos_utils_plus ya la trae transitiva; la
+  # Decodificar/convertir el logo a raster monocromo para la tÃ©rmica (ESC/POS)
+  # y para procesar imÃ¡genes. esc_pos_utils_plus ya la trae transitiva; la
   # declaramos directa para importarla de forma estable.
   image: ^4.0.0
 
   # Captura un widget Flutter a imagen FUERA de pantalla (al ancho exacto del
   # papel). Se usa para imprimir el recibo: el MISMO widget que se ve en la
-  # preview se rasteriza con el motor de Flutter (Skia) → el texto (tildes)
+  # preview se rasteriza con el motor de Flutter (Skia) â†’ el texto (tildes)
   # sale seguro en cualquier impresora, sin depender de codepages ni PDFium.
   screenshot: ^3.0.0
 
@@ -111,7 +111,7 @@ dependencies:
 
   # Impresion DIRECTA en Windows: se le mandan a la cola de impresion los bytes
   # ESC/POS crudos (datatype RAW), sin que el driver grafico interprete escala
-  # ni posicion — es lo que hace Android por Bluetooth y sale perfecto.
+  # ni posicion â€” es lo que hace Android por Bluetooth y sale perfecto.
   # Ver lib/data/services/impresora/windows_raw_printer.dart.
   # Ambas venian por transitiva (printing); se declaran directas porque el
   # codigo las importa (misma convencion que flutter_web_plugins y sqlite_async).
@@ -123,7 +123,7 @@ dependencies:
   # Ver lib/features/mapa/mapa_screen.dart (MarkerClusterLayerWidget).
   flutter_map_marker_cluster: ^1.4.0
 
-  # Sincronización continua en segundo plano y mantener pantalla encendida (SyncGate)
+  # SincronizaciÃ³n continua en segundo plano y mantener pantalla encendida (SyncGate)
   wakelock_plus: ^1.3.3
   flutter_foreground_task: ^10.0.0
 
@@ -134,14 +134,14 @@ dev_dependencies:
 
   # Harness de tests del repo de dinero (pagos_repo): abre una
   # PowerSyncDatabase in-memory/temp sobre el core nativo `powersync-sqlite-core`.
-  # `path` arma paths temporales únicos; `sqlite3` carga la extensión nativa en
+  # `path` arma paths temporales Ãºnicos; `sqlite3` carga la extensiÃ³n nativa en
   # el VM de `flutter test`. Ver test/data/repositories/pagos_repo_test.dart.
   path: ^1.9.0
 
-  # Empaquetado MSIX para distribución Windows.
+  # Empaquetado MSIX para distribuciÃ³n Windows.
   # PINEADO exacto (no ^): el publisher/cert del MSIX se deriva del test cert
-  # que trae ESTE paquete. Un bump podría cambiar ese cert → Windows vería la
-  # app como NUEVA y las instaladas no actualizarían. No cambiar sin re-verificar
+  # que trae ESTE paquete. Un bump podrÃ­a cambiar ese cert â†’ Windows verÃ­a la
+  # app como NUEVA y las instaladas no actualizarÃ­an. No cambiar sin re-verificar
   # identity/publisher del MSIX (ver msix_config.publisher abajo).
   msix: 3.16.13
 
@@ -151,51 +151,51 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # Fuente Unicode embebida para los PDF (recibo + reportes). NotoSans estático
-  # subset (Latin + puntuación + símbolos: — – · • € tildes ñ ¿ ¡). Sin esto los
-  # PDF usan la Helvetica interna que no tiene glifos para varios símbolos y
-  # salen como ⊠. Se carga vía rootBundle en el theme de los documentos.
+  # Fuente Unicode embebida para los PDF (recibo + reportes). NotoSans estÃ¡tico
+  # subset (Latin + puntuaciÃ³n + sÃ­mbolos: â€” â€“ Â· â€¢ â‚¬ tildes Ã± Â¿ Â¡). Sin esto los
+  # PDF usan la Helvetica interna que no tiene glifos para varios sÃ­mbolos y
+  # salen como âŠ . Se carga vÃ­a rootBundle en el theme de los documentos.
   assets:
     - assets/fonts/NotoSans-Regular.ttf
     - assets/fonts/NotoSans-Bold.ttf
     - assets/rutas_nicaragua.db
-    # Logo de la app (mismo PNG del ícono/MSIX) para mostrarlo en login y
-    # en la pantalla de crear/restablecer contraseña.
+    # Logo de la app (mismo PNG del Ã­cono/MSIX) para mostrarlo en login y
+    # en la pantalla de crear/restablecer contraseÃ±a.
     - assets/icon/app_icon.png
-    # Logo del login por tenant (white-label, Opción B). En el build genérico
+    # Logo del login por tenant (white-label, OpciÃ³n B). En el build genÃ©rico
     # es una copia del app_icon; el build branded lo reemplaza por el logo del
     # ISP. Ver tool/aplicar_branding.dart y branding/.
     - assets/branding/login_logo.png
 
-# Configuración MSIX para distribución Windows.
+# ConfiguraciÃ³n MSIX para distribuciÃ³n Windows.
 # Build: flutter build windows --release && dart run msix:create
 msix_config:
   build_windows: false
-  msix_version: 1.0.4.0
-  # Valores del build GENÉRICO. `build-release.ps1` los RE-PARCHEA por tenant
+  msix_version: 1.0.5.0
+  # Valores del build GENÃ‰RICO. `build-release.ps1` los RE-PARCHEA por tenant
   # (display_name/identity_name de `branding/<slug>/config.json`) antes de cada
-  # build y los restaura con `git checkout` — si acá quedara el nombre de un
-  # tenant (pasó con Telenet), un build genérico saldría mal identificado.
+  # build y los restaura con `git checkout` â€” si acÃ¡ quedara el nombre de un
+  # tenant (pasÃ³ con Telenet), un build genÃ©rico saldrÃ­a mal identificado.
   display_name: Prestamos Sitecsa
   publisher_display_name: Prestamos Sitecsa
-  # Publisher (DN) EXPLÍCITO = Subject del test cert del paquete msix. Declararlo
+  # Publisher (DN) EXPLÃCITO = Subject del test cert del paquete msix. Declararlo
   # fija la identidad de firma del MSIX y la independiza de futuros bumps del
   # paquete: si el cert cambiara, el build FALLA (mismatch) en vez de romper
   # silenciosamente la continuidad de updates de Windows. INVARIANTE de firma:
-  # NO cambiar en un tenant ya distribuido (Windows lo vería como app nueva).
+  # NO cambiar en un tenant ya distribuido (Windows lo verÃ­a como app nueva).
   publisher: "CN=Msix Testing, O=Msix Testing Corporation, S=Some-State, C=US"
   identity_name: com.sitecsa.prestamo
   logo_path: assets/icon/app_icon.png
   capabilities: internetClient, location
   languages: es
-  # Certificado self-signed para distribución B2B (no Microsoft Store).
-  # Para producción: reemplazar con certificado comprado.
+  # Certificado self-signed para distribuciÃ³n B2B (no Microsoft Store).
+  # Para producciÃ³n: reemplazar con certificado comprado.
   install_certificate: false
   store: false
 
 # Iconos de la app (Windows .ico + Android mipmaps). Fuente: el MISMO PNG que
-# usa el MSIX (assets/icon/app_icon.png) — reemplazá ese archivo por el logo
-# que corresponda (cuadrado, idealmente 1024x1024 con fondo) y corré:
+# usa el MSIX (assets/icon/app_icon.png) â€” reemplazÃ¡ ese archivo por el logo
+# que corresponda (cuadrado, idealmente 1024x1024 con fondo) y corrÃ©:
 #   dart run flutter_launcher_icons
 flutter_launcher_icons:
   image_path: "assets/icon/app_icon.png"

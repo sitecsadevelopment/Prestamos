@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
-  "release_notes": "v1.0.3 - Calculadora responsive en celular y Dashboard ajustado a Mes Calendario completo (1 al fin de mes).",
+  "version": "1.0.5",
+  "release_notes": "v1.0.5 - Paleta de colores verde financiero y mejoras de interfaz.",
   "download_url_windows": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix",
   "download_url_android": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.apk",
   "download_url": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix"
