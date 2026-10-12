@@ -73,7 +73,6 @@ class _CuotasListScreenState extends ConsumerState<CuotasListScreen> {
   // colgados de la conexión cerrada → ClosedException en el cold-start.
   late Stream<List<Map<String, dynamic>>> _cobradorOpcionesStream;
   late Stream<List<Map<String, dynamic>>> _comunidadOpcionesStream;
-  late Stream<List<Map<String, dynamic>>> _planOpcionesStream;
 
   @override
   void initState() {
@@ -102,11 +101,6 @@ class _CuotasListScreenState extends ConsumerState<CuotasListScreen> {
        GROUP BY co.id, co.nombre, mu.nombre
        ORDER BY mu.nombre, co.nombre
     ''');
-    // Planes en uso. Va ACÁ y no en un `late final` de initState: este método
-    // se re-llama cuando la DB se recrea y cuando cambia el tenant, y un stream
-    // colgado de la DB vieja tira ClosedException en el cold-start.
-    _planOpcionesStream = ps.db
-        .watch(kPlanesFiltroSql, parameters: [ref.read(tenantIdProvider)]);
   }
 
   @override
@@ -204,29 +198,6 @@ class _CuotasListScreenState extends ConsumerState<CuotasListScreen> {
                 opciones: opts,
                 seleccionados: _comunidadIds ?? allIds,
                 onChanged: (s) => setState(() => _comunidadIds =
-                    s.isEmpty || s.length >= allIds.length ? null : s),
-              );
-            },
-          ),
-          const SizedBox(width: 8),
-          // Plan — último de la barra. Las opciones salen de una consulta
-          // propia (no de las filas cargadas): si dependieran del cobrador o la
-          // zona ya elegidos, la lista de ids se achicaría y la canonización
-          // "todo marcado = sin filtrar" convertiría sola la selección en null
-          // sin que el usuario toque nada.
-          StreamBuilder<List<Map<String, dynamic>>>(
-            stream: _planOpcionesStream,
-            initialData: const [],
-            builder: (context, snap) {
-              final opts = opcionesDePlanes(snap.data ?? const []);
-              final allIds = opts.map((o) => o.id).toSet();
-              return FiltroMultiDropdown(
-                icon: kPlanFiltroIcono,
-                hint: 'Plan',
-                buscarHint: 'Buscar plan…',
-                opciones: opts,
-                seleccionados: _planIds ?? allIds,
-                onChanged: (s) => setState(() => _planIds =
                     s.isEmpty || s.length >= allIds.length ? null : s),
               );
             },

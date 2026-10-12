@@ -731,7 +731,6 @@ class _Filtros extends StatelessWidget {
           _EstadoServicioChip(
               seleccionados: estadoServicioActual, onChanged: onEstadoServicio),
           const SizedBox(width: 8),
-          _PlanChip(seleccionados: planActual, onChanged: onPlan),
           _ActivoChip(soloActivos: soloActivos, onChanged: onSoloActivos),
           if (filtrosActivos > 0) ...[
             const SizedBox(width: 8),

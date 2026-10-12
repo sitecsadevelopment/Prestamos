@@ -174,8 +174,8 @@ msix_config:
   # (display_name/identity_name de `branding/<slug>/config.json`) antes de cada
   # build y los restaura con `git checkout` — si acá quedara el nombre de un
   # tenant (pasó con Telenet), un build genérico saldría mal identificado.
-  display_name: Prestamos
-  publisher_display_name: Prestamos
+  display_name: Prestamos Sitecsa
+  publisher_display_name: Prestamos Sitecsa
   # Publisher (DN) EXPLÍCITO = Subject del test cert del paquete msix. Declararlo
   # fija la identidad de firma del MSIX y la independiza de futuros bumps del
   # paquete: si el cert cambiara, el build FALLA (mismatch) en vez de romper

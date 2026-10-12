@@ -1750,14 +1750,7 @@ class _FiltrosAdmin extends StatelessWidget {
         ),
         // Plan — último. Es un Wrap, así que en teléfono baja a una segunda
         // línea en vez de desbordar.
-        FiltroMultiDropdown(
-          icon: kPlanFiltroIcono,
-          hint: 'Plan',
-          buscarHint: 'Buscar plan…',
-          opciones: planOpciones,
-          seleccionados: planSel,
-          onChanged: onPlanChanged,
-        ),
+        
       ],
     );
   }

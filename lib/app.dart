@@ -70,7 +70,7 @@ class IspBillingApp extends ConsumerWidget {
     });
 
     return MaterialApp.router(
-      title: 'CRM',
+      title: 'Prestamos Sitecsa',
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.light(),
       routerConfig: ref.watch(routerProvider),

@@ -172,7 +172,6 @@ String? _backTargetFor(String loc) {
   // Sub-secciones del grupo Administración → la sub-galería.
   const adminChildren = <String>{
     '/admin/cobradores',
-    '/admin/planes',
     '/admin/geografia',
     '/admin/red',
     '/admin/etiquetas',
@@ -207,7 +206,6 @@ String? _tituloFor(String loc) {
     '/admin/rutas': 'Rutas',
     '/admin/contratos': 'Contratos',
     '/admin/contratos/nuevo': 'Nuevo contrato',
-    '/admin/planes': 'Planes',
     '/admin/cobradores': 'Cobradores',
     '/admin/pagos': 'Pagos',
     '/admin/cobros-a-revisar': 'Cobros a revisar',
@@ -441,11 +439,9 @@ const _adminMenu = [
   ]),
   _MenuItem(Icons.tune, 'Administración', '/admin/administracion',
       color: Color(0xFF5F5E5A), adminOnly: true,
-      subtitulo: 'personal · planes · etiquetas', children: [
+      subtitulo: 'personal · geografía · etiquetas', children: [
     _MenuItem(Icons.badge, 'Personal', '/admin/cobradores',
         color: Color(0xFF0F6E56), adminOnly: true),
-    _MenuItem(Icons.credit_card, 'Planes', '/admin/planes',
-        color: Color(0xFF185FA5), adminOnly: true),
     _MenuItem(Icons.location_city, 'Geografía', '/admin/geografia',
         color: Color(0xFF3B6D11), adminOnly: true),
     _MenuItem(Icons.sell, 'Etiquetas', '/admin/etiquetas',

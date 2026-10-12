@@ -178,7 +178,6 @@ class ReportesAdminScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           _MoraPorComunidadCard(diasGracia: diasGracia),
           const SizedBox(height: 16),
-          const _PlanesPopularesCard(),
         ],
         const SizedBox(height: 24),
       ],
