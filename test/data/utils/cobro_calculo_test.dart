@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/cobro_calculo.dart';
+import 'package:prestamo/data/utils/cobro_calculo.dart';
 
 /// Tests de la matemática del cobro/vuelto. Esta es la lógica que tuvo el
 /// bug crítico de contabilidad (se guardaba lo entregado como aplicado,

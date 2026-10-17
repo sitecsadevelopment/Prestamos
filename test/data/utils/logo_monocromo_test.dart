@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-import 'package:isp_billing/data/utils/logo_monocromo.dart';
+import 'package:prestamo/data/utils/logo_monocromo.dart';
 
 /// El driver de Windows TRAMA las imágenes raster del PDF (el texto, que va
 /// vectorial, sale sólido). Por eso el recibo salía con el texto nítido y el

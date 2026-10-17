@@ -11,7 +11,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/dashboard/dashboard_tarjetas.dart';
+import 'package:prestamo/features/admin/dashboard/dashboard_tarjetas.dart';
 
 void main() {
   group('leerOrdenTarjetas — fallbacks', () {

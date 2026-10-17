@@ -24,10 +24,10 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:isp_billing/features/admin/dashboard/dashboard_export.dart';
-import 'package:isp_billing/features/admin/dashboard/dashboard_query.dart';
-import 'package:isp_billing/powersync/db.dart' as ps;
-import 'package:isp_billing/powersync/schema.dart';
+import 'package:prestamo/features/admin/dashboard/dashboard_export.dart';
+import 'package:prestamo/features/admin/dashboard/dashboard_query.dart';
+import 'package:prestamo/powersync/db.dart' as ps;
+import 'package:prestamo/powersync/schema.dart';
 import 'package:path/path.dart' as p;
 import 'package:powersync/powersync.dart';
 import 'package:sqlite3/open.dart' as sq;

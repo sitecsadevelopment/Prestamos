@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-import 'package:isp_billing/data/models/recibo_layout.dart';
-import 'package:isp_billing/data/services/impresora/recibo_escpos.dart';
+import 'package:prestamo/data/models/recibo_layout.dart';
+import 'package:prestamo/data/services/impresora/recibo_escpos.dart';
 
 /// El armado del raster ESC/POS salió de `ImpresoraService` para que la
 /// impresión DIRECTA de Windows use exactamente el mismo que Android por

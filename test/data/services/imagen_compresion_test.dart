@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 
-import 'package:isp_billing/data/services/imagen_compresion.dart';
+import 'package:prestamo/data/services/imagen_compresion.dart';
 
 /// Genera un JPEG sintético de [w]x[h] con ruido (gradiente) para que el
 /// peso sea realista (una imagen lisa comprime "demasiado bien" y no

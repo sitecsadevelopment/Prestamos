@@ -1,8 +1,8 @@
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:isp_billing/data/repositories/settings_repo.dart';
-import 'package:isp_billing/features/recibo/recibo_texto_escpos.dart';
+import 'package:prestamo/data/repositories/settings_repo.dart';
+import 'package:prestamo/features/recibo/recibo_texto_escpos.dart';
 
 void main() {
   // CapabilityProfile.load() lee un asset JSON del paquete → hace falta el

@@ -8,7 +8,7 @@
 library;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/powersync/connector.dart';
+import 'package:prestamo/powersync/connector.dart';
 
 void main() {
   group('esCodigoNoRetryable — permanentes (se descartan con aviso)', () {

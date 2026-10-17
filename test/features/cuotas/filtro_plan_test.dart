@@ -28,11 +28,11 @@ import 'dart:ffi' show DynamicLibrary;
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/cuotas/cobros_query.dart';
-import 'package:isp_billing/features/shared/widgets/filtro_planes.dart';
+import 'package:prestamo/features/cuotas/cobros_query.dart';
+import 'package:prestamo/features/shared/widgets/filtro_planes.dart';
 import 'package:path/path.dart' as p;
 import 'package:powersync/powersync.dart';
-import 'package:isp_billing/powersync/schema.dart';
+import 'package:prestamo/powersync/schema.dart';
 import 'package:sqlite3/open.dart' as sq;
 
 import '../admin/dashboard/escenario_seed.dart';

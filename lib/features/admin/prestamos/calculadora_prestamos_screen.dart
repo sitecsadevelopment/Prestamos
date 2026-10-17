@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'cotizacion_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -49,16 +51,16 @@ class CuotaAmortizacion {
   final double saldoRestante;
 }
 
-class CalculadoraPrestamosScreen extends StatefulWidget {
+class CalculadoraPrestamosScreen extends ConsumerStatefulWidget {
   const CalculadoraPrestamosScreen({super.key});
 
   @override
-  State<CalculadoraPrestamosScreen> createState() =>
+  ConsumerState<CalculadoraPrestamosScreen> createState() =>
       _CalculadoraPrestamosScreenState();
 }
 
 class _CalculadoraPrestamosScreenState
-    extends State<CalculadoraPrestamosScreen> {
+    extends ConsumerState<CalculadoraPrestamosScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _montoController = TextEditingController(text: '10000');
@@ -198,6 +200,35 @@ class _CalculadoraPrestamosScreenState
 
   String _formatearMonto(num valor) {
     return Fmt.monto(valor, _moneda);
+  }
+
+    void _abrirProformaCotizacion() {
+    if (_monto <= 0 || _cuotas <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor ingresá un monto y cuotas válidos.'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    mostrarCotizacionDialog(
+      context: context,
+      ref: ref,
+      monto: _monto,
+      tasaInteres: _tasaInteres,
+      tasaEsMensual: _tasaEsMensual,
+      frecuencia: _frecuencia,
+      plazoCuotas: _cuotas,
+      metodo: _metodo,
+      montoCuota: _montoCuota,
+      totalInteres: _totalInteres,
+      totalPagar: _totalPagar,
+      moneda: _moneda,
+      fechaPrimerPago: _fechaPrimerPago,
+      cronograma: _generarCronograma(),
+    );
   }
 
   void _copiarResumen() {
@@ -357,12 +388,23 @@ class _CalculadoraPrestamosScreenState
               ),
             ),
             const SizedBox(width: 8),
+            IconButton.outlined(
+              tooltip: 'Copiar texto plano',
+              onPressed: _copiarResumen,
+              icon: const Icon(Icons.copy, size: 18),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey.shade700,
+                side: const BorderSide(color: Color(0xFFCBD5E1)),
+                padding: const EdgeInsets.all(10),
+              ),
+            ),
+            const SizedBox(width: 8),
             esMovil
                 ? Expanded(
                     child: FilledButton.icon(
-                      onPressed: _copiarResumen,
-                      icon: const Icon(Icons.copy, size: 16),
-                      label: const Text('Copiar Cotización'),
+                      onPressed: _abrirProformaCotizacion,
+                      icon: const Icon(Icons.description_outlined, size: 18),
+                      label: const Text('Cotización / Proforma'),
                       style: FilledButton.styleFrom(
                         backgroundColor: const Color(0xFF0F766E),
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -373,9 +415,9 @@ class _CalculadoraPrestamosScreenState
                     ),
                   )
                 : FilledButton.icon(
-                    onPressed: _copiarResumen,
-                    icon: const Icon(Icons.copy, size: 16),
-                    label: const Text('Copiar Cotización'),
+                    onPressed: _abrirProformaCotizacion,
+                    icon: const Icon(Icons.description_outlined, size: 18),
+                    label: const Text('Cotización / Proforma'),
                     style: FilledButton.styleFrom(
                       backgroundColor: const Color(0xFF0F766E),
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

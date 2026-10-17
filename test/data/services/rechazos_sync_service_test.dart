@@ -3,7 +3,7 @@
 library;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/services/rechazos_sync_service.dart';
+import 'package:prestamo/data/services/rechazos_sync_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 RechazoSync _rechazo(String id, {String tabla = 'pagos'}) => RechazoSync(

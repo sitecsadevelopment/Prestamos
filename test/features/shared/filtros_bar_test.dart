@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/shared/widgets/filtro_multi_dropdown.dart';
-import 'package:isp_billing/features/shared/widgets/filtros_bar.dart';
+import 'package:prestamo/features/shared/widgets/filtro_multi_dropdown.dart';
+import 'package:prestamo/features/shared/widgets/filtros_bar.dart';
 
 /// Tests del segundo estándar de listas: la barra de filtros. Canoniza la regla
 /// "todo/nada marcado = sin filtrar (null)" y el botón "Limpiar (N)".

@@ -13,8 +13,8 @@ library;
 /// abre el ciclo, y que las ventanas no se pisen ni dejen huecos.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/periodo_dashboard.dart';
-import 'package:isp_billing/features/admin/dashboard/caja_ciclo_card.dart';
+import 'package:prestamo/data/utils/periodo_dashboard.dart';
+import 'package:prestamo/features/admin/dashboard/caja_ciclo_card.dart';
 
 void main() {
   group('bloque DÍA', () {

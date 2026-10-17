@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/validators.dart';
+import 'package:prestamo/data/utils/validators.dart';
 
 /// Tests de Validators y sanitizePhone — lógica pura de validación
 /// usada en ~10 forms del repo. Si rompe, los inputs sucios entran a

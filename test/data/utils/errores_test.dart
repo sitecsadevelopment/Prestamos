@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/errores.dart';
+import 'package:prestamo/data/utils/errores.dart';
 
 void main() {
   group('mensajeErrorHumano', () {

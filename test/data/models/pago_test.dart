@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/models/pago.dart';
+import 'package:prestamo/data/models/pago.dart';
 
 /// Tests del modelo Pago — foco en el campo vuelto_cordobas (migración 0061)
 /// y la compatibilidad con rows legacy que no lo tienen.

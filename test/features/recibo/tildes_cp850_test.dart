@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/recibo/recibo_texto_escpos.dart';
+import 'package:prestamo/features/recibo/recibo_texto_escpos.dart';
 
 /// El modo texto nativo imprimía las tildes como símbolos sueltos: "Período"
 /// salía "PerÝodo", "Método" → "MÚtodo", "más" → "mßs", "Nº" → "N║"

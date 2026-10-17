@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/models/recibo_layout.dart';
+import 'package:prestamo/data/models/recibo_layout.dart';
 
 /// Tests del parseo robusto del layout del recibo. `fromRaw` es la fundación
 /// del "diseñador de recibo": tiene que sanear datos viejos/corruptos sin

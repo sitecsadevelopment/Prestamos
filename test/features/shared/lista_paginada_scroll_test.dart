@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/shared/widgets/lista_paginada_scroll.dart';
+import 'package:prestamo/features/shared/widgets/lista_paginada_scroll.dart';
 
 /// Tests del componente estándar de lista paginada. El diseño por callbacks
 /// ([construirStream]/[construirConteo]) permite probar TODA la mecánica con

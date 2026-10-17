@@ -48,15 +48,15 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:isp_billing/data/models/pago.dart';
-import 'package:isp_billing/data/repositories/contratos_repo.dart';
-import 'package:isp_billing/data/repositories/cuotas_repo.dart';
-import 'package:isp_billing/data/repositories/pagos_repo.dart';
-import 'package:isp_billing/data/utils/colchon_indefinido.dart';
-import 'package:isp_billing/data/utils/prorrateo.dart';
-import 'package:isp_billing/features/recibo/recibo_cargos.dart';
-import 'package:isp_billing/powersync/db.dart' as ps;
-import 'package:isp_billing/powersync/schema.dart';
+import 'package:prestamo/data/models/pago.dart';
+import 'package:prestamo/data/repositories/contratos_repo.dart';
+import 'package:prestamo/data/repositories/cuotas_repo.dart';
+import 'package:prestamo/data/repositories/pagos_repo.dart';
+import 'package:prestamo/data/utils/colchon_indefinido.dart';
+import 'package:prestamo/data/utils/prorrateo.dart';
+import 'package:prestamo/features/recibo/recibo_cargos.dart';
+import 'package:prestamo/powersync/db.dart' as ps;
+import 'package:prestamo/powersync/schema.dart';
 import 'package:path/path.dart' as p;
 import 'package:powersync/powersync.dart';
 // Prefijado para evitar cualquier colisión con símbolos re-exportados por

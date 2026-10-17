@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-import 'package:isp_billing/data/utils/logo_termica.dart';
+import 'package:prestamo/data/utils/logo_termica.dart';
 
 void main() {
   // Valida el HÍBRIDO de `procesarLogoTermica`: los extremos van a negro/blanco

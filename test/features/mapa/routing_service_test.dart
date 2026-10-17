@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:isp_billing/features/mapa/servicios/routing_service.dart';
-import 'package:isp_billing/features/mapa/servicios/osrm_routing_service.dart';
+import 'package:prestamo/features/mapa/servicios/routing_service.dart';
+import 'package:prestamo/features/mapa/servicios/osrm_routing_service.dart';
 
 void main() {
   group('RoutingService & RouteResult Tests', () {

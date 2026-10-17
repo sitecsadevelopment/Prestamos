@@ -1,4 +1,4 @@
-﻿# BITACORA.md — Control de cambios y estado vivo del proyecto
+# BITACORA.md — Control de cambios y estado vivo del proyecto
 
 > **Quién lee esto:** la PRIMERA lectura de toda sesión nueva (humano o AI).
 > Responde "¿dónde quedamos, qué fue lo último que se trabajó y por qué?".
@@ -22,6 +22,12 @@
 ---
 
 ## ⭐ ESTADO ACTUAL (refrescar al cerrar cada sesión)
+- **?? (2026-10-17) - Prestamos v1.0.6: Ocultamiento de Tenants/Solicitudes en Men y Generacin de Proforma PDF con WhatsApp en Calculadora.**
+   **Men Principal (`admin_shell.dart`):** Ocultas las tarjetas de "Tenants" y "Solicitudes" para todos los roles (`admin`, `admin_cobranza`, `admin_usuarios`, `lectura`). Filtrado en `_menuVisible` y removido de `_adminMenu` y de la lista permitida de `admin_usuarios`.
+   **Proforma de Prstamos en PDF (`proforma_pdf.dart`):** Generador ejecutivo formal con tamao carta, NotoSans, branding/logo del tenant, datos del solicitante, resumen de condiciones financieras, tabla de amortizacin cuota a cuota con totales, clusula informativa y espacio para firmas.
+   **Dilogo y Envo por WhatsApp (`cotizacion_dialog.dart`, `calculadora_prestamos_screen.dart`):** Dilogo interactivo que solicita nombre, WhatsApp (+505 automtico) y cdula, con buscador predictivo de clientes existentes locales en SQLite. Envo por WhatsApp con mensaje estructurado y enlace pblico al PDF en Supabase Storage, adems de opciones para descargar el PDF, compartirlo nativamente o copiar el texto.
+   **Tests y Estabilidad:** Actualizado el identificador de paquete de `isp_billing` a `prestamo` en los tests y verificado `prestamos_calculo_service_test.dart` pasando al 100%.
+
 
 - **👉 (2026-09-30) — Findex v0.45.3: Fase 3 Rework Microfinanzas / Préstamos — Cobro en Terreno, Recibos Térmicos, WhatsApp Directo y Cartera en Ruta.**
   · **Cobro en Terreno (`cobro_screen.dart`):** Tarjetas de cuota individual (`_ClienteCuotaCard`) y cobro múltiple (`_MultiCuotaCard`) adaptadas para microfinanzas mostrando el código de préstamo, desglose explícito de amortización (Abono a Capital vs Interés Ordinario) y el saldo restante proyectado al abonar.

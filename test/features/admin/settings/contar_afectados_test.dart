@@ -8,7 +8,7 @@
 library;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/settings/data_ops_screen.dart';
+import 'package:prestamo/features/admin/settings/data_ops_screen.dart';
 
 void main() {
   group('contarAfectados', () {

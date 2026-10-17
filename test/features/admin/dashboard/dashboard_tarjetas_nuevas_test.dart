@@ -17,7 +17,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/powersync/schema.dart';
+import 'package:prestamo/powersync/schema.dart';
 import 'package:path/path.dart' as p;
 import 'package:powersync/powersync.dart';
 import 'package:sqlite3/open.dart' as sq;

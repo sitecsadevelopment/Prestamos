@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/services/prestamos_calculo_service.dart';
+import 'package:prestamo/data/services/prestamos_calculo_service.dart';
 
 void main() {
   group('PrestamosCalculoService - Interés Fijo (Microfinanzas Flat)', () {

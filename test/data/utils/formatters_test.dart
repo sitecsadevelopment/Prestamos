@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:isp_billing/data/utils/formatters.dart';
+import 'package:prestamo/data/utils/formatters.dart';
 
 /// Tests de Fmt — formatters de moneda, fecha y período usados en
 /// **todas las pantallas** del repo (dashboard, recibo, lista de

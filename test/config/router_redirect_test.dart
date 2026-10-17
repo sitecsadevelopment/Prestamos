@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/config/router.dart';
+import 'package:prestamo/config/router.dart';
 
 /// Tests del redirect inicial por rol (landing de `/` + guards de shell por
 /// rol). Es la lógica que más regresiones de routing produjo; acá queda

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/services/logo_cache_service.dart';
+import 'package:prestamo/data/services/logo_cache_service.dart';
 
 /// Guard que corta la fuga de egress del logo (35-62 GB/DÍA, 2026-07-27).
 ///

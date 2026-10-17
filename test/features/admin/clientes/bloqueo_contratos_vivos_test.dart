@@ -16,8 +16,8 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/formatters.dart';
-import 'package:isp_billing/features/admin/clientes/cliente_form_screen.dart';
+import 'package:prestamo/data/utils/formatters.dart';
+import 'package:prestamo/features/admin/clientes/cliente_form_screen.dart';
 
 Future<void> _montar(
     WidgetTester tester, double ancho, List<Map<String, dynamic>> vivos) async {

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/cola_tecnico.dart';
+import 'package:prestamo/data/utils/cola_tecnico.dart';
 
 Map<String, dynamic> t(String id, String estado,
         {int? orden, String creado = '2026-01-01T00:00:00Z'}) =>

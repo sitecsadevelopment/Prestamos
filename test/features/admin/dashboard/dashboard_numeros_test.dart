@@ -19,9 +19,9 @@ import 'dart:math' as math;
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/dashboard/dashboard_query.dart';
-import 'package:isp_billing/features/admin/reportes/arqueo_query.dart';
-import 'package:isp_billing/powersync/schema.dart';
+import 'package:prestamo/features/admin/dashboard/dashboard_query.dart';
+import 'package:prestamo/features/admin/reportes/arqueo_query.dart';
+import 'package:prestamo/powersync/schema.dart';
 import 'package:path/path.dart' as p;
 import 'package:powersync/powersync.dart';
 import 'package:sqlite3/open.dart' as sq;

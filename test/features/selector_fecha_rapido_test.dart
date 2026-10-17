@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/shared/widgets/selector_fecha_rapido.dart';
+import 'package:prestamo/features/shared/widgets/selector_fecha_rapido.dart';
 
 /// El selector de fecha "rápido" reemplaza al `showDatePicker` nativo para que
 /// tocar un día lo APLIQUE de una, sin botones OK/Cancelar (pedido de los

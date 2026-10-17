@@ -23,8 +23,8 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/dashboard/bloque_parte_y_todo.dart';
-import 'package:isp_billing/features/admin/dashboard/escala_resumen.dart';
+import 'package:prestamo/features/admin/dashboard/bloque_parte_y_todo.dart';
+import 'package:prestamo/features/admin/dashboard/escala_resumen.dart';
 
 /// Los números REALES de Telecable Mairena, verificados contra la base.
 const _verde = Color(0xFF1D9E75);

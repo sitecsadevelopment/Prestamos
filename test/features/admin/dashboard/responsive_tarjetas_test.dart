@@ -14,7 +14,7 @@ library;
 /// verifican que la tabla haya CAMBIADO DE FORMA, no que quepa a los golpes.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/dashboard/caja_ciclo_card.dart';
+import 'package:prestamo/features/admin/dashboard/caja_ciclo_card.dart';
 
 /// El ancho útil de un teléfono común, ya descontada la barra del sistema.
 const anchoTelefono = 360.0;

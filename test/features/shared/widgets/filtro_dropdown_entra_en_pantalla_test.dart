@@ -26,7 +26,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/shared/widgets/filtro_multi_dropdown.dart';
+import 'package:prestamo/features/shared/widgets/filtro_multi_dropdown.dart';
 
 void main() {
   // Etiquetas largas de verdad: son los nombres reales de Telecable Mairena,

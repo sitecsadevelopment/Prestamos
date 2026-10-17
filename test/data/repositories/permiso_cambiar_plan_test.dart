@@ -20,10 +20,10 @@ library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/models/cobrador.dart';
-import 'package:isp_billing/data/models/setting.dart';
-import 'package:isp_billing/data/providers/cobrador_provider.dart';
-import 'package:isp_billing/data/repositories/settings_repo.dart';
+import 'package:prestamo/data/models/cobrador.dart';
+import 'package:prestamo/data/models/setting.dart';
+import 'package:prestamo/data/providers/cobrador_provider.dart';
+import 'package:prestamo/data/repositories/settings_repo.dart';
 
 Cobrador _con(String rol) => Cobrador(
       id: 'u-$rol',

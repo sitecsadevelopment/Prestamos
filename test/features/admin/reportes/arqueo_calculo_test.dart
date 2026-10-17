@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/reportes/arqueo_calculo.dart';
+import 'package:prestamo/features/admin/reportes/arqueo_calculo.dart';
 
 /// Tests de la matemática del arqueo / cierre por cobrador. La propiedad
 /// central: **`equivalenteTotalC == ingresoTotal`** siempre que los pagos

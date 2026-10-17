@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/papel_termica.dart';
+import 'package:prestamo/data/utils/papel_termica.dart';
 
 /// Un milímetro en puntos PDF.
 const _mm = 72 / 25.4;

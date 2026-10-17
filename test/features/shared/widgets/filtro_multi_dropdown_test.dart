@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/shared/widgets/filtro_multi_dropdown.dart';
+import 'package:prestamo/features/shared/widgets/filtro_multi_dropdown.dart';
 
 /// Widget test del FiltroMultiDropdown (componente central del rework de
 /// filtros). Cubre: render del chip, apertura del panel, y que deseleccionar

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/cuota_estado.dart';
+import 'package:prestamo/data/utils/cuota_estado.dart';
 
 /// Tests de `calcularEstadoCuota` — la lógica de estado de cuota
 /// extraída de `PagosRepo._calcularEstado` en el sprint de tests base.

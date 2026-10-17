@@ -410,8 +410,8 @@ const _adminMenu = [
       color: Color(0xFF0F6E56)),
   _MenuItem(Icons.calculate_outlined, 'Calculadora', '/admin/calculadora-prestamos',
       color: Color(0xFF0F766E), subtitulo: 'simulá cuotas e interés'),
-  _MenuItem(Icons.approval, 'Solicitudes', '/admin/solicitudes',
-      color: Color(0xFFB45309), adminOnly: true),
+  // Solicitudes oculta del menu principal
+    // _MenuItem(Icons.approval, 'Solicitudes', '/admin/solicitudes', ...), adminOnly: true),
   _MenuItem(Icons.alt_route, 'Rutas', '/admin/rutas', color: Color(0xFF534AB7)),
   // Grupo "Cobranza": card en el home → sub-galería (/admin/cobranza) con Centro,
   // Cobros, Avisos y Pagos. Junta el flujo de cobranza en UN botón (audit UX
@@ -458,8 +458,8 @@ const _adminMenu = [
   _MenuItem(Icons.pin_drop, 'Mapa', '/admin/mapa', color: Color(0xFF0D8249)),
   _MenuItem(Icons.settings, 'Configuración', '/admin/settings',
       color: Color(0xFF5F5E5A), adminOnly: true),
-  _MenuItem(Icons.shield, 'Tenants', '/super/tenants',
-      color: Color(0xFF534AB7), adminOnly: true, superAdminOnly: false),
+  // Tenants oculta del menu principal
+    // _MenuItem(Icons.shield, 'Tenants', '/super/tenants', ...), adminOnly: true, superAdminOnly: false),
 ];
 
 class _MenuItem {
@@ -471,6 +471,7 @@ class _MenuItem {
     this.subtitulo,
     this.adminOnly = false,
     this.cobranza = false,
+    // ignore: unused_element_parameter
     this.superAdminOnly = false,
     this.settingKey,
     this.superRespetaSetting = false,
@@ -507,9 +508,13 @@ bool _menuVisible(
   Set<String> pantallasOn = const {},
   Set<String> modulosOn = const {},
 }) {
+  // Ocultar Solicitudes y Tenants del menu visual para todos los roles
+  if (m.path == '/admin/solicitudes' || m.path == '/super/tenants') {
+    return false;
+  }
   // admin_usuarios: allowlist estricta — Clientes, Mapa y Solicitudes.
   if (esAdminUsuarios) {
-    const permitido = {'/admin/clientes', '/admin/mapa', '/admin/solicitudes'};
+    const permitido = {'/admin/clientes', '/admin/mapa'};
     return permitido.contains(m.path);
   }
   if (m.settingKey != null &&

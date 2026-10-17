@@ -5,7 +5,7 @@
 library;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/services/correlativo_store.dart';
+import 'package:prestamo/data/services/correlativo_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

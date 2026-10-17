@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/powersync/db.dart' as ps;
+import 'package:prestamo/powersync/db.dart' as ps;
 
 /// La guardia de escritura del rol `lectura` (0198) es el backstop de las 25+
 /// acciones que la UI podría dejar pasar. Si alguien la desarma sin querer, el

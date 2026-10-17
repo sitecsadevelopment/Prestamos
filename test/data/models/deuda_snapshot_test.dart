@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/models/deuda_snapshot.dart';
+import 'package:prestamo/data/models/deuda_snapshot.dart';
 
 /// La deuda congelada al pedir una suspensión/cancelación viaja como TEXTO con
 /// JSON adentro. Ese camino ya rompió una vez en este proyecto

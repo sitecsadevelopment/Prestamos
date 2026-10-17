@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/providers/impersonation_provider.dart';
+import 'package:prestamo/data/providers/impersonation_provider.dart';
 
 /// Fija el contrato del estado OPTIMISTA de impersonación (fix audit 2026-07-04):
 ///   - `impersonatedTenantEfectivoProvider` = para RUTEO (optimista los 2 lados).

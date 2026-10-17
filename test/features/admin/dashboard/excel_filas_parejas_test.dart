@@ -14,8 +14,8 @@ library;
 /// una validación que siempre devuelve "todo bien" pasaría igual.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/dashboard/dashboard_export.dart';
-import 'package:isp_billing/features/admin/reportes/excel/reporte_excel.dart';
+import 'package:prestamo/features/admin/dashboard/dashboard_export.dart';
+import 'package:prestamo/features/admin/reportes/excel/reporte_excel.dart';
 
 void main() {
   LibroExcel libro({

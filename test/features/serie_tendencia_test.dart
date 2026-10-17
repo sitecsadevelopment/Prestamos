@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/admin/dashboard/tendencia_cobros_card.dart';
+import 'package:prestamo/features/admin/dashboard/tendencia_cobros_card.dart';
 
 /// La curva de tendencia agrupaba los pagos de FUERA de la ventana (pre-pagos y
 /// pagos tardíos) en el día 0 / último día, inflando el tooltip "Del día" hasta

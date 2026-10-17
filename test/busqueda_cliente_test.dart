@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/repositories/settings_repo.dart';
-import 'package:isp_billing/data/utils/busqueda_cliente.dart';
+import 'package:prestamo/data/repositories/settings_repo.dart';
+import 'package:prestamo/data/utils/busqueda_cliente.dart';
 
 /// Tests del folding canónico de búsqueda (ñ/acentos → ASCII-minúscula).
 ///

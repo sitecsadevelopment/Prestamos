@@ -19,7 +19,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/features/shared/widgets/selector_buscable.dart';
+import 'package:prestamo/features/shared/widgets/selector_buscable.dart';
 
 /// Abre el selector con [opciones] y devuelve el helper para tipear y contar.
 Future<void> _abrir(

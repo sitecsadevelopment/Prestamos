@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 //
 // Imports que se necesitarían con mockito:
 // import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:isp_billing/data/utils/edge_functions.dart';
+// import 'package:prestamo/data/utils/edge_functions.dart';
 
 // ---------------------------------------------------------------------------
 // Lógica extraída — réplica exacta de _humanizarError tal como aparece

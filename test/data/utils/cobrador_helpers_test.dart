@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/utils/cobrador_helpers.dart';
+import 'package:prestamo/data/utils/cobrador_helpers.dart';
 
 /// Tests de cobrador_helpers — funciones puras de presentación usadas en
 /// el panel super_admin (CircleAvatar initials, labels de rol). Si rompe,

@@ -34,9 +34,9 @@ library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isp_billing/data/providers/auth_identity_provider.dart';
-import 'package:isp_billing/data/providers/sync_ready_provider.dart';
-import 'package:isp_billing/data/providers/sync_status_provider.dart';
+import 'package:prestamo/data/providers/auth_identity_provider.dart';
+import 'package:prestamo/data/providers/sync_ready_provider.dart';
+import 'package:prestamo/data/providers/sync_status_provider.dart';
 import 'package:powersync/powersync.dart';
 
 void main() {
