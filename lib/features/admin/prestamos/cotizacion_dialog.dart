@@ -13,6 +13,7 @@ import '../../../config/env.dart';
 import '../../../data/providers/cobrador_provider.dart';
 import '../../../data/providers/logo_empresa_provider.dart';
 import '../../../data/repositories/settings_repo.dart';
+import '../../../data/services/url_shortener_service.dart';
 import '../../../data/utils/formatters.dart';
 import '../../../powersync/db.dart' as ps;
 import '../reportes/descarga_archivo.dart';
@@ -255,8 +256,9 @@ class _CotizacionDialogState extends ConsumerState<_CotizacionDialog> {
                   upsert: true,
                 ),
               );
-          linkPdf =
+          final rawUrl =
               '${Env.supabaseUrl}/storage/v1/object/public/recibos-pdf/$storagePath';
+          linkPdf = await UrlShortenerService.acortar(rawUrl);
         } catch (e) {
           debugPrint('Aviso: No se pudo subir PDF a Storage (se enviará resumen): $e');
         }

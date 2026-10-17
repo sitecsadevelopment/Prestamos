@@ -17,6 +17,7 @@ import '../../data/providers/impresora_provider.dart';
 import '../../data/providers/logo_empresa_provider.dart';
 import '../../data/services/impresora/recibo_escpos.dart';
 import '../../data/services/impresora/windows_raw_printer.dart';
+import '../../data/services/url_shortener_service.dart';
 import '../../data/repositories/settings_repo.dart';
 import '../../data/models/recibo_layout.dart';
 import '../../data/utils/papel_termica.dart';
@@ -452,7 +453,7 @@ class _AccionesImpresionState extends ConsumerState<_AccionesImpresion> {
   bool _descargandoPdf = false;
   bool _guardandoPdf = false;
 
-  String _armarMensajeWhatsApp() {
+  String _armarMensajeWhatsApp({String linkPdf = ''}) {
     final r = widget.recibo;
     final settings = ref.read(appSettingsProvider);
     final numero = (r['numero_completo'] as String?) ?? widget.reciboId;
@@ -492,12 +493,13 @@ class _AccionesImpresionState extends ConsumerState<_AccionesImpresion> {
       template = kReciboWhatsappTemplateDefault;
     }
 
-    final tenantId = (r['tenant_id'] as String?)?.isNotEmpty == true
-        ? (r['tenant_id'] as String)
-        : (ref.read(tenantIdProvider) ?? 'f7227a73-f6e8-4578-b5a6-f476f9ebeffe');
-    final linkPdf = tenantId.isNotEmpty
-        ? '${Env.supabaseUrl}/storage/v1/object/public/recibos-pdf/$tenantId/${widget.reciboId}.pdf'
-        : '';
+    if (linkPdf.isEmpty) {
+      template = template
+          .replaceAll('📥 *Descargar Recibo PDF:*\n{link_recibo}\n--------------------------------\n', '')
+          .replaceAll('📄 *Descargar Recibo PDF:*\n{link_recibo}\n--------------------------------\n', '')
+          .replaceAll('📥 *Descargar Recibo PDF:*\n{link_recibo}\n', '')
+          .replaceAll('📄 *Descargar Recibo PDF:*\n{link_recibo}\n', '');
+    }
 
     var texto = template
         .replaceAll('{empresa}', empresa)
@@ -537,26 +539,6 @@ class _AccionesImpresionState extends ConsumerState<_AccionesImpresion> {
     return texto;
   }
 
-  Future<void> _subirPdfEnSegundoPlano() async {
-    try {
-      final r = widget.recibo;
-      final tenantId = (r['tenant_id'] as String?)?.isNotEmpty == true
-          ? (r['tenant_id'] as String)
-          : (ref.read(tenantIdProvider) ?? 'f7227a73-f6e8-4578-b5a6-f476f9ebeffe');
-      if (tenantId.isNotEmpty) {
-        final pdf = await _generarReciboPdf();
-        await Supabase.instance.client.storage.from('recibos-pdf').uploadBinary(
-              '$tenantId/${widget.reciboId}.pdf',
-              pdf.bytes,
-              fileOptions: const FileOptions(
-                contentType: 'application/pdf',
-                upsert: true,
-              ),
-            );
-      }
-    } catch (_) {}
-  }
-
   Future<void> _compartirReciboWhatsApp() async {
     setState(() => _guardandoPdf = true);
     try {
@@ -565,7 +547,8 @@ class _AccionesImpresionState extends ConsumerState<_AccionesImpresion> {
           ? (r['tenant_id'] as String)
           : (ref.read(tenantIdProvider) ?? 'f7227a73-f6e8-4578-b5a6-f476f9ebeffe');
 
-      // 1. Generar y subir PDF a Supabase Storage asegurando que esté disponible de inmediato
+      // 1. Generar, subir PDF a Supabase Storage y acortar enlace para no exponer URL de Supabase
+      var linkPdf = '';
       if (tenantId.isNotEmpty) {
         try {
           final pdf = await _generarReciboPdf();
@@ -577,13 +560,16 @@ class _AccionesImpresionState extends ConsumerState<_AccionesImpresion> {
                   upsert: true,
                 ),
               );
+          final rawUrl =
+              '${Env.supabaseUrl}/storage/v1/object/public/recibos-pdf/$tenantId/${widget.reciboId}.pdf';
+          linkPdf = await UrlShortenerService.acortar(rawUrl);
         } catch (e) {
           debugPrint('Error al subir PDF para WhatsApp: $e');
         }
       }
 
-      // 2. Armar texto del mensaje con el desglose y el enlace directo al PDF
-      final texto = _armarMensajeWhatsApp();
+      // 2. Armar texto del mensaje con el desglose y el enlace acortado al PDF
+      final texto = _armarMensajeWhatsApp(linkPdf: linkPdf);
 
       // 3. Autopopular el número de teléfono del cliente con código de país (+505)
       final rawTel = (r['cliente_telefono'] as String?)?.replaceAll(RegExp(r'[^0-9]'), '') ?? '';

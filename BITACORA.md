@@ -22,11 +22,12 @@
 ---
 
 ## ⭐ ESTADO ACTUAL (refrescar al cerrar cada sesión)
-- **?? (2026-10-17) - Prestamos v1.0.6: Ocultamiento de Tenants/Solicitudes en Men y Generacin de Proforma PDF con WhatsApp en Calculadora.**
-   **Men Principal (`admin_shell.dart`):** Ocultas las tarjetas de "Tenants" y "Solicitudes" para todos los roles (`admin`, `admin_cobranza`, `admin_usuarios`, `lectura`). Filtrado en `_menuVisible` y removido de `_adminMenu` y de la lista permitida de `admin_usuarios`.
-   **Proforma de Prstamos en PDF (`proforma_pdf.dart`):** Generador ejecutivo formal con tamao carta, NotoSans, branding/logo del tenant, datos del solicitante, resumen de condiciones financieras, tabla de amortizacin cuota a cuota con totales, clusula informativa y espacio para firmas.
-   **Dilogo y Envo por WhatsApp (`cotizacion_dialog.dart`, `calculadora_prestamos_screen.dart`):** Dilogo interactivo que solicita nombre, WhatsApp (+505 automtico) y cdula, con buscador predictivo de clientes existentes locales en SQLite. Envo por WhatsApp con mensaje estructurado y enlace pblico al PDF en Supabase Storage, adems de opciones para descargar el PDF, compartirlo nativamente o copiar el texto.
-   **Tests y Estabilidad:** Actualizado el identificador de paquete de `isp_billing` a `prestamo` en los tests y verificado `prestamos_calculo_service_test.dart` pasando al 100%.
+- **👉 (2026-10-17) — Préstamos v1.0.6: Acortador de Enlaces PDF en WhatsApp (Calculadora y Recibo), Proforma PDF y Ocultamiento de Tenants/Solicitudes.**
+  · **Acortador de Enlaces PDF (`url_shortener_service.dart`, `cotizacion_dialog.dart`, `recibo_screen.dart`):** Nuevo servicio centralizado `UrlShortenerService.acortar` con cadena de proveedores (`tinyurl.com` → `da.gd` → `clck.ru`), timeout de 4 s y caché en memoria para ocultar el dominio `*.supabase.co` y los UUIDs internos al enviar tanto la **Proforma de la Calculadora** como el **Recibo de Cobro** por WhatsApp. Si está offline o falla el acortador, omite limpiamente el bloque de descarga sin exponer jamás la URL cruda de Supabase.
+  · **Menú Principal (`admin_shell.dart`):** Ocultas las tarjetas de "Tenants" y "Solicitudes" para todos los roles (`admin`, `admin_cobranza`, `admin_usuarios`, `lectura`). Filtrado en `_menuVisible` y removido de `_adminMenu` y de la lista permitida de `admin_usuarios`.
+  · **Proforma de Préstamos en PDF (`proforma_pdf.dart`):** Generador ejecutivo formal con tamaño carta, NotoSans, branding/logo del tenant, datos del solicitante, resumen de condiciones financieras, tabla de amortización cuota a cuota con totales, cláusula informativa y espacio para firmas.
+  · **Diálogo y Envío por WhatsApp (`cotizacion_dialog.dart`, `calculadora_prestamos_screen.dart`):** Diálogo interactivo que solicita nombre, WhatsApp (+505 automático) y cédula, con buscador predictivo de clientes existentes locales en SQLite. Envío por WhatsApp con mensaje estructurado y enlace acortado al PDF, además de opciones para descargar el PDF, compartirlo nativamente o copiar el texto.
+  · **Tests y Estabilidad:** Suite `url_shortener_service_test.dart` (3/3 tests en verde) + `prestamos_calculo_service_test.dart` pasando al 100%.
 
 
 - **👉 (2026-09-30) — Findex v0.45.3: Fase 3 Rework Microfinanzas / Préstamos — Cobro en Terreno, Recibos Térmicos, WhatsApp Directo y Cartera en Ruta.**
