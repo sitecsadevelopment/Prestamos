@@ -1,7 +1,7 @@
 name: prestamo
 description: App de gestiÃ³n de clientes y cobros para prÃ©stamos y microfinanzas (Nicaragua) â€” offline-first con PowerSync.
 publish_to: 'none'
-version: 1.0.5+6
+version: 1.0.6+7
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -171,7 +171,7 @@ flutter:
 # Build: flutter build windows --release && dart run msix:create
 msix_config:
   build_windows: false
-  msix_version: 1.0.5.0
+  msix_version: 1.0.6.0
   # Valores del build GENÃ‰RICO. `build-release.ps1` los RE-PARCHEA por tenant
   # (display_name/identity_name de `branding/<slug>/config.json`) antes de cada
   # build y los restaura con `git checkout` â€” si acÃ¡ quedara el nombre de un
