@@ -1,6 +1,6 @@
 {
-  "version": "1.0.6",
-  "release_notes": "v1.0.6 - Ocultar Tenants y Solicitudes del menú principal y Generación de Proforma PDF con WhatsApp en Calculadora.",
+  "version": "1.0.7",
+  "release_notes": "v1.0.7 - Enlaces acortados en WhatsApp para Proformas de cotización y Recibos de pago (oculta URLs de Supabase Storage).",
   "download_url_windows": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix",
   "download_url_android": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.apk",
   "download_url": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix"

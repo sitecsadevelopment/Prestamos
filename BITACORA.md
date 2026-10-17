@@ -22,7 +22,7 @@
 ---
 
 ## ⭐ ESTADO ACTUAL (refrescar al cerrar cada sesión)
-- **👉 (2026-10-17) — Préstamos v1.0.6: Acortador de Enlaces PDF en WhatsApp (Calculadora y Recibo), Proforma PDF y Ocultamiento de Tenants/Solicitudes.**
+- **👉 (2026-10-17) — Préstamos v1.0.7: Acortador de Enlaces PDF en WhatsApp (Calculadora y Recibo), Proforma PDF y Ocultamiento de Tenants/Solicitudes.**
   · **Acortador de Enlaces PDF (`url_shortener_service.dart`, `cotizacion_dialog.dart`, `recibo_screen.dart`):** Nuevo servicio centralizado `UrlShortenerService.acortar` con cadena de proveedores (`tinyurl.com` → `da.gd` → `clck.ru`), timeout de 4 s y caché en memoria para ocultar el dominio `*.supabase.co` y los UUIDs internos al enviar tanto la **Proforma de la Calculadora** como el **Recibo de Cobro** por WhatsApp. Si está offline o falla el acortador, omite limpiamente el bloque de descarga sin exponer jamás la URL cruda de Supabase.
   · **Menú Principal (`admin_shell.dart`):** Ocultas las tarjetas de "Tenants" y "Solicitudes" para todos los roles (`admin`, `admin_cobranza`, `admin_usuarios`, `lectura`). Filtrado en `_menuVisible` y removido de `_adminMenu` y de la lista permitida de `admin_usuarios`.
   · **Proforma de Préstamos en PDF (`proforma_pdf.dart`):** Generador ejecutivo formal con tamaño carta, NotoSans, branding/logo del tenant, datos del solicitante, resumen de condiciones financieras, tabla de amortización cuota a cuota con totales, cláusula informativa y espacio para firmas.
