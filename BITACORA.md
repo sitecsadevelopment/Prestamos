@@ -22,7 +22,7 @@
 ---
 
 ## ⭐ ESTADO ACTUAL (refrescar al cerrar cada sesión)
-- **👉 (2026-11-05) — Moneda Internacional en Toda América + Préstamos en Dólares (Integrado en `main`):**
+- **👉 (2026-11-05) — Préstamos v1.0.8: Moneda Internacional en Toda América + Préstamos en Dólares (Integrado en `main`):**
   · **Catálogo de 29 Monedas de América (`monedas_pais.dart`):** Cobertura completa de Centroamérica, Norteamérica, Caribe y Sudamérica con banderas, códigos ISO, símbolos dinámicos (`Q`, `L`, `C$`, `S/`, `RD$`, `US$`, `Bs.`, `₡`, `$`, etc.), nombres singulares/plurales en letras, códigos de marcación telefónica internacional para WhatsApp y bandera de dolarización (`esDolarizada`). Fallback seguro a Nicaragua (`C$`).
   · **Ajustes de Empresa y Formateo Reactivo (`settings_admin_screen.dart`, `settings_groups.dart`, `settings_repo.dart`, `formatters.dart`, `monto_a_letras.dart`, `pago.dart`, `app.dart`):** Dropdown con selector de país/moneda en Ajustes. Sincronización automática de `Fmt.configurarMoneda` a nivel raíz en `app.dart` manteniendo todos los formateadores, montos en letras y símbolos de la app reactivos.
   · **Modalidad de Préstamos en Dólares (`contrato_form_screen.dart`):** Al originar un préstamo en `US$`, se muestra banner de tipo de cambio en vivo (`1 US$ = X Moneda Local`) y selector para que el usuario decida:
