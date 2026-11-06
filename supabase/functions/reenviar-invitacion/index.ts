@@ -176,7 +176,7 @@ serve(async (req) => {
       rol: tc.rol,
       nombre: tc.nombre,
       telefono: tc.telefono ?? null,
-      prefijo_recibo: ["cobrador", "admin", "admin_cobranza"].includes(tc.rol)
+      prefijo_recibo: ["cobrador", "admin", "admin_basico", "admin_cobranza"].includes(tc.rol)
         ? (tc.prefijo_recibo ?? null)
         : null,
     };

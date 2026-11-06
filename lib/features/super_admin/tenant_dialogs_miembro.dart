@@ -523,7 +523,9 @@ class _CambiarRolDialogState extends State<CambiarRolDialog> {
 
     // Warnings que dependen del cambio elegido.
     final perderaAdmin =
-        widget.rolActual == 'admin' && _seleccionado != 'admin';
+        (widget.rolActual == 'admin' || widget.rolActual == 'admin_basico') &&
+            _seleccionado != 'admin' &&
+            _seleccionado != 'admin_basico';
     final dejaraDeSerCobrador =
         widget.rolActual == 'cobrador' && _seleccionado != 'cobrador';
     final dejaraClientesHuerfanos =
@@ -671,6 +673,7 @@ class _CambiarRolDialogState extends State<CambiarRolDialog> {
   // OFF verían su shell vacío (y 0114 bloquea writes server-side).
   static const _roles = [
     'admin',
+    'admin_basico',
     'admin_cobranza',
     'admin_usuarios',
     'cobrador',
@@ -682,6 +685,7 @@ class _CambiarRolDialogState extends State<CambiarRolDialog> {
 
   static String _label(String r) => switch (r) {
         'admin' => 'Administrador',
+        'admin_basico' => 'Admin básico',
         'admin_cobranza' => 'Admin de cobranza',
         'admin_usuarios' => 'Admin de usuarios',
         'cobrador' => 'Cobrador',
@@ -695,6 +699,8 @@ class _CambiarRolDialogState extends State<CambiarRolDialog> {
   static String _descripcion(String r) => switch (r) {
         'admin' =>
           'Acceso completo: clientes, contratos, planes, cobradores, config.',
+        'admin_basico' =>
+          'Igual que Administrador, pero sin crear ni editar usuarios.',
         'admin_cobranza' =>
           'Clientes, contratos, cuotas y pagos. Sin acceso a config.',
         'admin_usuarios' =>

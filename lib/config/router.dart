@@ -336,7 +336,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Avisos: admin/admin_cobranza acceden a /admin/avisos solo si el
       // super_admin habilitó el toggle por tenant (cobranza.avisos_habilitado,
       // 0134). El super_admin la ve siempre (rol != admin/admin_cobranza).
-      if ((rol == 'admin' || rol == 'admin_cobranza' || rol == 'lectura') &&
+      if ((rol == 'admin' || rol == 'admin_basico' || rol == 'admin_cobranza' || rol == 'lectura') &&
           (loc == '/admin/avisos' || loc.startsWith('/admin/avisos/'))) {
         final avisosOn = ref.read(appSettingsProvider).avisosHabilitado;
         if (!avisosOn) return '/admin';
@@ -347,7 +347,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       // ve siempre; admin_cobranza ya cae en `soloAdmin`.
       // `lectura` incluido: sin él entraba por URL a /admin/pagos y /admin/avisos
       // aunque el tenant los tuviera apagados (el menú sí los ocultaba).
-      if (rol == 'admin' || rol == 'lectura') {
+      if (rol == 'admin' || rol == 'admin_basico' || rol == 'lectura') {
         final s = ref.read(appSettingsProvider);
         if ((loc == '/admin/pagos' || loc.startsWith('/admin/pagos/')) &&
             !s.pantallaPagosHabilitada) {
@@ -417,7 +417,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       // Panel /super/* sólo para super_admin. Cualquier otro rol que
       // intente entrar (por URL directa) se va al panel admin del tenant.
-      if (loc.startsWith('/super') && rol != 'super_admin' && rol != 'admin') {
+      if (loc.startsWith('/super') && rol != 'super_admin' && rol != 'admin' && rol != 'admin_basico') {
         return '/admin';
       }
 
@@ -826,6 +826,7 @@ String? redirectInicialPorRol({
       return impersonating ? '/admin' : '/super/tenants';
     }
     if (rol == 'admin' ||
+        rol == 'admin_basico' ||
         rol == 'admin_cobranza' ||
         rol == 'admin_usuarios' ||
         rol == 'lectura') {

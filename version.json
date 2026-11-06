@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8",
-  "release_notes": "v1.0.8 - Moneda internacional por país en toda América, modalidades de préstamos en dólares (US$ o fijado en moneda local) y cobro bimoneda.",
+  "version": "1.0.9",
+  "release_notes": "v1.0.9:\n• Nuevo rol Admin básico: acceso total de administración con vista de Cobradores en modo solo lectura.\n• Nuevo diálogo de resumen de novedades antes de descargar e instalar actualizaciones.\n• Soporte de 29 monedas de América y préstamos bimoneda (US$ / Moneda local).",
   "download_url_windows": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix",
   "download_url_android": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.apk",
   "download_url": "https://github.com/sitecsadevelopment/Prestamos/releases/latest/download/Prestamos.msix"

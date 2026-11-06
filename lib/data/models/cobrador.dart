@@ -30,7 +30,9 @@ class Cobrador {
   final bool dashboardPinConfigurado;
 
   bool get esSuperAdmin => rol == 'super_admin';
-  bool get esAdmin => rol == 'admin';
+  bool get esAdmin => rol == 'admin' || rol == 'admin_basico';
+  bool get esAdminBasico => rol == 'admin_basico';
+  bool get puedeGestionarUsuarios => rol == 'admin' || esSuperAdmin;
   bool get esAdminCobranza => rol == 'admin_cobranza';
   bool get esCobrador => rol == 'cobrador';
   // Roles de Fase 3 (tickets). `tecnico` es móvil-first (shell propio);

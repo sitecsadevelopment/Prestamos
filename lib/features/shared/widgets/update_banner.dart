@@ -148,7 +148,83 @@ class _UpdateBannerState extends ConsumerState<UpdateBanner> {
     );
   }
 
+  Future<bool?> _mostrarResumenActualizacion(AppUpdate update) {
+    final notas = update.releaseNotes?.trim().isNotEmpty == true
+        ? update.releaseNotes!.trim()
+        : 'Mejoras de rendimiento, estabilidad y correcciones generales.';
+
+    return showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        final scheme = Theme.of(dialogContext).colorScheme;
+        final textTheme = Theme.of(dialogContext).textTheme;
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.system_update_alt, color: scheme.primary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text('Nueva versión v${update.version}'),
+              ),
+            ],
+          ),
+          content: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 420),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '¿Qué incluye esta actualización?',
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: scheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      notas,
+                      style: textTheme.bodyMedium,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Al continuar se descargará el instalador y se abrirá automáticamente.',
+                    style: textTheme.bodySmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Ahora no'),
+            ),
+            FilledButton.icon(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              icon: const Icon(Icons.download, size: 18),
+              label: const Text('Descargar e instalar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _actualizar(AppUpdate update) async {
+    final confirmado = await _mostrarResumenActualizacion(update);
+    if (confirmado != true || !mounted) return;
+
     // Web: sin filesystem → descarga clásica del browser (única opción).
     if (kIsWeb) {
       await _abrirEnNavegador(update.downloadUrl);

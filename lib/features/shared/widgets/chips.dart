@@ -67,7 +67,7 @@ class RolChip extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final (bg, fg) = switch (rol) {
       'super_admin' => (scheme.tertiaryContainer, scheme.onTertiaryContainer),
-      'admin' => (scheme.primaryContainer, scheme.onPrimaryContainer),
+      'admin' || 'admin_basico' => (scheme.primaryContainer, scheme.onPrimaryContainer),
       'admin_cobranza' =>
         (scheme.secondaryContainer, scheme.onSecondaryContainer),
       _ => (scheme.surfaceContainerHighest, scheme.onSurfaceVariant),

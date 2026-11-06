@@ -134,7 +134,7 @@ serve(async (req) => {
           403,
         );
       }
-      if (target.rol === "admin") {
+      if (target.rol === "admin" || target.rol === "admin_basico") {
         return jsonError(
           "Un admin no puede forzar la contraseña de otro admin",
           403,

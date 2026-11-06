@@ -86,7 +86,7 @@ class UpdateService {
 
       if (response.statusCode != 200) return null;
 
-      var body = response.body;
+      var body = utf8.decode(response.bodyBytes, allowMalformed: true);
       if (body.startsWith('\uFEFF')) {
         body = body.substring(1);
       }

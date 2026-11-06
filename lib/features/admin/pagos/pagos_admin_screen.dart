@@ -243,7 +243,7 @@ class _PagoCard extends ConsumerWidget {
     final fecha = DateTime.parse(row['fecha_pago'] as String);
     final cobrador = ref.watch(cobradorActualProvider).valueOrNull;
     final settings = ref.watch(appSettingsProvider);
-    final esAdmin = cobrador?.rol == 'admin';
+    final esAdmin = cobrador?.esAdmin ?? false;
     final puedeVerHistorial = esAdmin || settings.auditVisibleAdminCobranza;
 
     return Card(

@@ -293,6 +293,56 @@ bucket_definitions:
       # Cola de aprobación (Fase 3B) — admin ve y resuelve solicitudes.
       - SELECT * FROM solicitudes_accion WHERE tenant_id = bucket.tenant_id
 
+  # ── Admin básico (rol `admin_basico`, 0276): MISMO dataset que admin ────
+  # Hace todo lo que hace `admin` (clientes, contratos, cuotas, pagos,
+  # reportes, settings, solicitudes, tickets, inventario) excepto crear o
+  # editar usuarios en `/admin/cobradores` (donde solo ve la lista).
+  todo_tenant_admin_basico:
+    parameters: |
+      SELECT tenant_id
+      FROM cobradores
+      WHERE id = request.user_id() AND rol = 'admin_basico' AND activo = true
+    data:
+      - SELECT * FROM clientes             WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM contratos            WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM cuotas               WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM pagos                WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM recibos              WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM cargos_extra         WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM contrato_suspensiones WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM notificaciones_mora  WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM fotos_cliente        WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM visitas              WHERE tenant_id = bucket.tenant_id
+      - SELECT id, tenant_id, nombre, telefono, rol, prefijo_recibo, activo, puede_cambiar_fecha, dashboard_pin, dashboard_pin_configurado
+        FROM cobradores
+        WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM op_log            WHERE tenant_id = bucket.tenant_id
+
+      # Etiquetas asignadas a clientes (P5).
+      - SELECT * FROM cliente_etiquetas WHERE tenant_id = bucket.tenant_id
+
+      # Saldos a favor del cliente (crédito por excedente, 0127). Admin-managed.
+      - SELECT * FROM saldos_favor      WHERE tenant_id = bucket.tenant_id
+
+      # Inventario (módulo opcional) — admin_basico lo gestiona igual que admin.
+      - SELECT * FROM inv_categorias    WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM inv_proveedores   WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM inv_productos      WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM inv_ubicaciones   WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM inv_seriales      WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM inv_movimientos   WHERE tenant_id = bucket.tenant_id
+
+      # Tickets (módulo opcional, Fase 3) — admin_basico lo gestiona igual que admin.
+      - SELECT * FROM ticket_tipos      WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM tickets           WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM ticket_eventos    WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM ticket_adjuntos   WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM ticket_materiales WHERE tenant_id = bucket.tenant_id
+      - SELECT * FROM incidentes        WHERE tenant_id = bucket.tenant_id
+
+      # Cola de aprobación (Fase 3B) — admin_basico ve y resuelve solicitudes.
+      - SELECT * FROM solicitudes_accion WHERE tenant_id = bucket.tenant_id
+
   # ── Solo lectura (rol `lectura`, 0198): MISMO dataset que admin ────────
   # Para los dueños del ISP: ven todo el tenant (incluida la plata) y no pueden
   # modificar nada. Que bajen el mismo slice es deliberado — reusan las mismas

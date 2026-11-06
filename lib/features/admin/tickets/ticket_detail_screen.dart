@@ -1475,7 +1475,7 @@ class _TicketDetailScreenState extends ConsumerState<TicketDetailScreen> {
   Future<void> _reasignar(Map<String, dynamic> t) async {
     if (bloqueadoPorImpersonacion(context, ref)) return;
     final tecnicos = await ps.db.getAll(
-        "SELECT id, nombre FROM cobradores WHERE activo = 1 AND rol IN ('tecnico','admin_tickets','admin') ORDER BY nombre");
+        "SELECT id, nombre FROM cobradores WHERE activo = 1 AND rol IN ('tecnico','admin_tickets','admin','admin_basico') ORDER BY nombre");
     if (!mounted) return;
     final elegido = await showModalBottomSheet<({String? id, String nombre})>(
       context: context,

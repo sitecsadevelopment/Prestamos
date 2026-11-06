@@ -157,6 +157,7 @@ class PerfilScreen extends ConsumerWidget {
 
   String _rolDisplay(String rol) => switch (rol) {
         'admin' => 'Administrador',
+        'admin_basico' => 'Admin básico',
         'admin_cobranza' => 'Admin de cobranza',
         'admin_usuarios' => 'Admin de usuarios',
         'admin_tickets' => 'Admin de tickets',

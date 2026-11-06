@@ -25,7 +25,7 @@ import '../../../data/utils/errores.dart';
 
 /// Los 3 roles que cobran en campo y por lo tanto necesitan prefijo de
 /// recibo (correlativo propio). El super_admin NO cobra → no lleva prefijo.
-const _kRolesQueCobran = {'cobrador', 'admin', 'admin_cobranza'};
+const _kRolesQueCobran = {'cobrador', 'admin', 'admin_basico', 'admin_cobranza'};
 
 /// True si [prefijo] (no vacío) ya lo usa OTRO cobrador del tenant (fix F0:
 /// unicidad validada en cliente → error claro en vez de rechazo silencioso del
@@ -145,6 +145,8 @@ class _CobradoresAdminScreenState
   @override
   Widget build(BuildContext context) {
     final tenantId = ref.watch(tenantIdProvider);
+    final soloLectura = ref.watch(soloLecturaProvider) ||
+        (ref.watch(cobradorActualProvider).valueOrNull?.esAdminBasico ?? false);
     if (tenantId != _tenantDelStream) _rehacerStream();
     return StreamBuilder<List<Map<String, dynamic>>>(
       stream: _cobradoresStream,
@@ -160,7 +162,7 @@ class _CobradoresAdminScreenState
             titulo: 'Sin cobradores',
             descripcion:
                 'Invitá al primero — te generamos una contraseña para compartirle por WhatsApp.',
-            accion: FilledButton.icon(
+            accion: soloLectura ? null : FilledButton.icon(
               icon: const Icon(Icons.person_add),
               label: const Text('Invitar cobrador'),
               onPressed: () => _abrirInvitar(context),
@@ -170,7 +172,7 @@ class _CobradoresAdminScreenState
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            if (!ref.watch(soloLecturaProvider)) ...[
+            if (!soloLectura) ...[
               Align(
                 alignment: Alignment.centerRight,
                 child: FilledButton.icon(
@@ -507,6 +509,9 @@ class _InvitarDialogState extends ConsumerState<_InvitarDialog> {
                 const DropdownMenuItem(
                     value: 'admin', child: Text('Administrador')),
                 const DropdownMenuItem(
+                    value: 'admin_basico',
+                    child: Text('Admin básico — Todo excepto gestionar usuarios')),
+                const DropdownMenuItem(
                     value: 'lectura', child: Text('Solo lectura')),
                 // tecnico + admin_tickets: roles del módulo tickets, cada uno
                 // con su shell propio. Se ofrecen si el módulo está activo.
@@ -601,6 +606,8 @@ class _CobradorCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
     final activo = (row['activo'] as int? ?? 1) == 1;
+    final soloLectura = ref.watch(soloLecturaProvider) ||
+        (ref.watch(cobradorActualProvider).valueOrNull?.esAdminBasico ?? false);
     final rol = row['rol'] as String;
     final prefijo = row['prefijo_recibo'] as String?;
     final clientes = row['clientes_asignados'] as int? ?? 0;
@@ -706,7 +713,7 @@ class _CobradorCard extends ConsumerWidget {
                 tooltip: 'Historial de cambios',
                 onPressed: () => _historial(context, row['id'] as String),
               ),
-              if (rol == 'admin' && !ref.watch(soloLecturaProvider))
+              if ((rol == 'admin' || rol == 'admin_basico') && !soloLectura)
                 IconButton(
                   icon: Icon(
                     (row['dashboard_pin_configurado'] as int? ?? 0) == 1
@@ -717,7 +724,7 @@ class _CobradorCard extends ConsumerWidget {
                   tooltip: 'PIN del dashboard',
                   onPressed: () => _pinDialog(context, ref, row),
                 ),
-              if (!ref.watch(soloLecturaProvider))
+              if (!soloLectura)
                 IconButton(
                   icon: const Icon(Icons.edit),
                   tooltip: 'Editar',
@@ -789,7 +796,7 @@ class _CobradorCard extends ConsumerWidget {
   }
 
   Color _colorRol(String rol, ColorScheme s) => switch (rol) {
-        'admin' => s.primary,
+        'admin' || 'admin_basico' => s.primary,
         'admin_cobranza' => s.tertiary,
         // Default legible (s.secondary es primary al 10% → iniciales invisibles).
         _ => s.onSurfaceVariant,
@@ -804,6 +811,7 @@ class _RolChip extends StatelessWidget {
     return Chip(
       label: Text(switch (rol) {
         'admin' => 'Admin',
+        'admin_basico' => 'Admin básico',
         'admin_cobranza' => 'Cobranza',
         'admin_usuarios' => 'Usuarios',
         'cobrador' => 'Cobrador',
@@ -877,7 +885,7 @@ class _EditarCobradorDialogState extends ConsumerState<_EditarCobradorDialog> {
   bool get _puedeForzarPassword {
     final yo = ref.watch(cobradorActualProvider).valueOrNull;
     if (yo == null) return false;
-    if (!(yo.esAdmin || yo.esSuperAdmin)) return false;
+    if (!yo.puedeGestionarUsuarios) return false;
     // No sobre uno mismo.
     if (widget.row['id'] == yo.id) return false;
     return true;
@@ -1222,6 +1230,8 @@ class _EditarCobradorDialogState extends ConsumerState<_EditarCobradorDialog> {
                 items: [
                   const DropdownMenuItem(
                       value: 'admin', child: Text('Administrador')),
+                  const DropdownMenuItem(
+                      value: 'admin_basico', child: Text('Admin básico')),
                   const DropdownMenuItem(
                       value: 'admin_cobranza',
                       child: Text('Admin de cobranza')),

@@ -2894,6 +2894,7 @@ sincronizar, que es la peor forma de fallar.
 | `por_admin_tickets` | `rol = 'admin_tickets'` | tickets sin dinero |
 | `por_coordinador` | `rol = 'coordinador'` | reparto de trabajo: asignar técnico y ordenar la cola |
 | `todo_tenant_admin` | `rol = 'admin'` | el tenant completo |
+| `todo_tenant_admin_basico` | `rol = 'admin_basico'` | el tenant completo (igual que `admin`, sin gestión de usuarios) |
 | `todo_tenant_admin_cobranza` | `rol = 'admin_cobranza'` | el tenant, recortado en reportería |
 | `todo_tenant_admin_usuarios` | `rol = 'admin_usuarios'` | gestión sin dinero (no baja `pagos` ni `cargos_extra`) |
 | `todo_tenant_lectura` | `rol = 'lectura'` | supervisión: ve todo, no escribe nada |

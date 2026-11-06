@@ -55,7 +55,7 @@ import { generarPasswordSegura } from "../_shared/passwords.ts";
 interface InvitarRequest {
   email: string;
   nombre: string;
-  rol: "admin" | "admin_cobranza" | "admin_usuarios" | "cobrador";
+  rol: "admin" | "admin_basico" | "admin_cobranza" | "admin_usuarios" | "cobrador" | "tecnico" | "admin_tickets" | "lectura" | "coordinador";
   telefono?: string;
   prefijo_recibo?: string;
   tenant_id?: string;
@@ -157,7 +157,7 @@ serve(async (req) => {
       return jsonError("telefono demasiado largo (max 32)", 400);
     }
     if (
-      !["admin", "admin_cobranza", "admin_usuarios", "cobrador", "tecnico", "admin_tickets", "lectura"]
+      !["admin", "admin_basico", "admin_cobranza", "admin_usuarios", "cobrador", "tecnico", "admin_tickets", "lectura", "coordinador"]
         .includes(body.rol)
     ) {
       return jsonError("Rol inválido", 400);
@@ -244,7 +244,7 @@ serve(async (req) => {
       // admin, admin_cobranza). Sólo super_admin no lo lleva, pero ese rol
       // ni siquiera es un target válido acá (validado arriba).
       prefijo_recibo:
-        ["cobrador", "admin", "admin_cobranza"].includes(body.rol)
+        ["cobrador", "admin", "admin_basico", "admin_cobranza"].includes(body.rol)
           ? (body.prefijo_recibo ?? null)
           : null,
     };

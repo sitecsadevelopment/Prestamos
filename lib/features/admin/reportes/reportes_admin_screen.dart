@@ -361,7 +361,7 @@ Future<void> editarFiltroCobradores(BuildContext context, WidgetRef ref) async {
     SELECT cb.id, cb.nombre, cb.rol, cb.activo
       FROM cobradores cb
      WHERE cb.tenant_id = ?
-       AND ((cb.activo = 1 AND cb.rol IN ('cobrador','admin','admin_cobranza'))
+       AND ((cb.activo = 1 AND cb.rol IN ('cobrador','admin','admin_basico','admin_cobranza'))
         OR EXISTS (SELECT 1 FROM pagos p
                     WHERE p.cobrador_id = cb.id AND COALESCE(p.anulado, 0) = 0 AND COALESCE(p.en_revision, 0) = 0
                       AND date(p.fecha_pago) BETWEEN ? AND ?))

@@ -358,7 +358,7 @@ class _MiembroCardState extends ConsumerState<MiembroCard> {
     final miembros = await container
         .read(cobradoresTenantProvider(widget.tenantId).future);
     final otrosAdminsActivos = miembros
-        .where((m) => m.rol == 'admin' && m.activo && m.id != c.id)
+        .where((m) => (m.rol == 'admin' || m.rol == 'admin_basico') && m.activo && m.id != c.id)
         .length;
     if (!mounted) return;
 
@@ -369,7 +369,7 @@ class _MiembroCardState extends ConsumerState<MiembroCard> {
         rolActual: c.rol,
         prefijoActual: c.prefijoRecibo,
         clientesAsignados: c.clientesAsignados,
-        esUltimoAdmin: c.rol == 'admin' && otrosAdminsActivos == 0,
+        esUltimoAdmin: (c.rol == 'admin' || c.rol == 'admin_basico') && otrosAdminsActivos == 0,
       ),
     );
     if (nuevo == null || nuevo == c.rol) return;
@@ -526,9 +526,9 @@ class _MiembroCardState extends ConsumerState<MiembroCard> {
         orElse: () => c,
       );
       final adminsActivos = miembros
-          .where((m) => m.rol == 'admin' && m.activo && m.id != cFresh.id)
+          .where((m) => (m.rol == 'admin' || m.rol == 'admin_basico') && m.activo && m.id != cFresh.id)
           .length;
-      final esUltimoAdmin = cFresh.rol == 'admin' && adminsActivos == 0;
+      final esUltimoAdmin = (cFresh.rol == 'admin' || cFresh.rol == 'admin_basico') && adminsActivos == 0;
       final dejaraClientesHuerfanos =
           cFresh.rol == 'cobrador' && cFresh.clientesAsignados > 0;
 
@@ -911,7 +911,7 @@ class _MiembroCardState extends ConsumerState<MiembroCard> {
 
   static Color _rolColor(ColorScheme s, String rol) => switch (rol) {
         'super_admin' => s.tertiary,
-        'admin' => s.primary,
+        'admin' || 'admin_basico' => s.primary,
         // s.secondary es primary al 10% → iniciales del avatar ilegibles.
         'admin_cobranza' => Colors.teal.shade700,
         _ => s.onSurfaceVariant,

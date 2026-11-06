@@ -314,7 +314,7 @@ class _TicketFormScreenState extends ConsumerState<TicketFormScreen> {
     // corre igual.
     final rows = await ps.db.getAll(
         'SELECT id, nombre FROM cobradores WHERE activo = 1 '
-        "AND rol IN ('tecnico','admin_tickets','admin') AND tenant_id = ? "
+        "AND rol IN ('tecnico','admin_tickets','admin','admin_basico') AND tenant_id = ? "
         'ORDER BY nombre',
         [ref.read(tenantIdProvider)]);
     if (!mounted) return;

@@ -121,7 +121,7 @@ serve(async (req) => {
       if (target.tenant_id !== yo.tenant_id) {
         return jsonError("No podés ver la contraseña de un usuario de otro tenant", 403);
       }
-      if (target.rol === "admin") {
+      if (target.rol === "admin" || target.rol === "admin_basico") {
         return jsonError("Un admin no puede ver la contraseña de otro admin", 403);
       }
     }

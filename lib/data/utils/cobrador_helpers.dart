@@ -22,6 +22,7 @@ String initialsFromName(String s) {
 String rolLabel(String rol) => switch (rol) {
       'super_admin' => 'Dev',
       'admin' => 'Administrador',
+      'admin_basico' => 'Admin básico',
       'admin_cobranza' => 'Admin de cobranza',
       'admin_usuarios' => 'Admin de usuarios',
       'cobrador' => 'Cobrador',

@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,7 +90,7 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
   /// borrado porque quedaban 10 solicitudes pendientes en producción.
   bool get _puedeCambiarEstado {
     final c = ref.watch(cobradorActualProvider).valueOrNull;
-    return c?.rol == 'admin' || (c?.esAdminUsuarios ?? false);
+    return (c?.esAdmin ?? false) || (c?.esAdminUsuarios ?? false);
   }
 
   /// Confirmación de la baja para quien la EJECUTA (el `admin`). Devuelve el
