@@ -12,6 +12,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../data/models/solicitud_accion.dart';
+import '../../../data/repositories/settings_repo.dart';
 import '../../../data/providers/aprobaciones_provider.dart';
 import '../../../data/providers/cobrador_provider.dart';
 import '../../../data/providers/conexion_real_provider.dart';
@@ -74,7 +75,8 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
   final _notasCtrl = TextEditingController();
 
   String? _clienteId;
-  String _moneda = 'NIO';
+  String _moneda = Fmt.esPaisDolarizado ? 'USD' : 'NIO';
+  bool _guardarConvertidoAMonedaLocal = false;
   FrecuenciaPago _frecuencia = FrecuenciaPago.mensual;
   MetodoCalculo _metodo = MetodoCalculo.interesFijo;
   bool _tasaEsMensual = true;
@@ -417,6 +419,27 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
       }
     }
 
+    final tasaConversion = ref.read(appSettingsProvider).tasaUsd;
+    final convertirALocal = _moneda == 'USD' && _guardarConvertidoAMonedaLocal && !Fmt.esPaisDolarizado;
+    final factor = convertirALocal ? (tasaConversion > 0 ? tasaConversion : 1.0) : 1.0;
+    final monedaFinal = convertirALocal ? 'NIO' : calculo.moneda;
+
+    final montoPrestadoFinal = double.parse((calculo.montoPrestado * factor).toStringAsFixed(2));
+    final montoCuotaFinal = double.parse((calculo.montoCuota * factor).toStringAsFixed(2));
+    final totalInteresFinal = double.parse((calculo.totalInteres * factor).toStringAsFixed(2));
+    final totalPagarFinal = double.parse((calculo.totalPagar * factor).toStringAsFixed(2));
+
+    final notaOrigen = convertirALocal
+        ? 'Préstamo originado en US\$ ${calculo.montoPrestado.toStringAsFixed(2)} fijado en moneda local a tasa ${tasaConversion.toStringAsFixed(2)}'
+        : null;
+    final String? notasFinales;
+    if (notaOrigen != null) {
+      final notasUser = _notasCtrl.text.trim();
+      notasFinales = notasUser.isEmpty ? notaOrigen : '$notaOrigen · $notasUser';
+    } else {
+      notasFinales = _notasCtrl.text.trim().isEmpty ? null : _notasCtrl.text.trim();
+    }
+
     // Si es gestor, pasa por flujo de solicitud de aprobación
     if (esGestor) {
       try {
@@ -429,22 +452,21 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
           'cliente_id': _clienteId,
           'cliente_nombre': clienteRow?['nombre'] as String? ?? '',
           'codigo': _codigoCtrl.text.trim().toUpperCase(),
-          'monto_prestado': calculo.montoPrestado,
+          'monto_prestado': montoPrestadoFinal,
           'tasa_interes': calculo.tasaInteres,
           'tasa_es_mensual': calculo.tasaEsMensual,
           'frecuencia': calculo.frecuencia.name,
           'plazo_cuotas': calculo.plazoCuotas,
           'metodo_calculo': calculo.metodo.name,
-          'moneda': calculo.moneda,
-          'monto_cuota': calculo.montoCuota,
-          'total_interes': calculo.totalInteres,
-          'total_pagar': calculo.totalPagar,
+          'moneda': monedaFinal,
+          'monto_cuota': montoCuotaFinal,
+          'total_interes': totalInteresFinal,
+          'total_pagar': totalPagarFinal,
           'fecha_inicio':
               calculo.fechaInicio.toIso8601String().substring(0, 10),
           'fecha_primer_cobro':
               calculo.fechaPrimerPago.toIso8601String().substring(0, 10),
-          'notas':
-              _notasCtrl.text.trim().isEmpty ? null : _notasCtrl.text.trim(),
+          'notas': notasFinales,
         };
 
         final ok = await solicitarAccion(
@@ -456,7 +478,8 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
           descripcionExtra:
               'Préstamo: ${_formatearMonto(calculo.montoPrestado)} '
               '(${calculo.plazoCuotas} cuotas de ${_formatearMonto(calculo.montoCuota)})\n'
-              'Cliente: ${clienteRow?['nombre'] ?? '?'}',
+              'Cliente: ${clienteRow?['nombre'] ?? '?'}'
+              '${convertirALocal ? "\nModalidad: Convertido a ${Fmt.simboloLocal} ($montoPrestadoFinal ${Fmt.simboloLocal})" : ""}',
         );
         if (ok && mounted) {
           _dirty = false;
@@ -518,18 +541,18 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
             calculo.fechaUltimaCuota.toIso8601String().substring(0, 10),
             (calculo.plazoCuotas * calculo.frecuencia.diasAprox / 30).ceil(),
             calculo.fechaPrimerPago.toIso8601String().substring(0, 10),
-            _notasCtrl.text.trim().isEmpty ? null : _notasCtrl.text.trim(),
+            notasFinales,
             DateTime.now().toIso8601String(),
             ocurridoEn,
-            calculo.montoPrestado,
+            montoPrestadoFinal,
             calculo.tasaInteres,
             calculo.frecuencia.name,
             calculo.plazoCuotas,
             calculo.metodo.name,
-            calculo.montoCuota,
-            calculo.totalInteres,
-            calculo.totalPagar,
-            calculo.moneda,
+            montoCuotaFinal,
+            totalInteresFinal,
+            totalPagarFinal,
+            monedaFinal,
           ],
         );
 
@@ -557,6 +580,10 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
               c.fechaVencimiento.toIso8601String().substring(0, 10);
           final descripcion =
               'Cuota ${c.numero} de ${calculo.plazoCuotas} (${calculo.frecuencia.etiqueta})';
+          final cCuota = double.parse((c.cuota * factor).toStringAsFixed(2));
+          final cCap = double.parse((c.capital * factor).toStringAsFixed(2));
+          final cInt = double.parse((c.interes * factor).toStringAsFixed(2));
+          final cSaldo = double.parse((c.saldoRestante * factor).toStringAsFixed(2));
 
           await tx.execute(
             '''
@@ -580,13 +607,13 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
               cobradorId,
               fechaStr,
               fechaStr,
-              c.cuota,
+              cCuota,
               descripcion,
               DateTime.now().toIso8601String(),
               ocurridoEn,
-              c.capital,
-              c.interes,
-              c.saldoRestante,
+              cCap,
+              cInt,
+              cSaldo,
             ],
           );
 
@@ -915,6 +942,10 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
 
   // ── 2. DATOS DEL PRÉSTAMO (UI EXACTA DE LA CALCULADORA) ────────────────────
   Widget _buildDatosPrestamoCard() {
+    final settings = ref.watch(appSettingsProvider);
+    final tasaUsd = settings.tasaUsd;
+    final esDolarizado = Fmt.esPaisDolarizado;
+    final montoParsed = double.tryParse(_montoCtrl.text.replaceAll(',', '')) ?? 0.0;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -948,50 +979,209 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
           ),
           const SizedBox(height: 18),
 
-          // Moneda
-          const Text(
-            'Moneda',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF475569),
+          if (!esDolarizado) ...[
+            const Text(
+              'Moneda',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF475569),
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(
-                value: 'NIO',
-                label: Text('Córdobas (C\$)'),
-                icon: Icon(Icons.monetization_on_outlined, size: 16),
-              ),
-              ButtonSegment(
-                value: 'USD',
-                label: Text('Dólares (US\$)'),
-                icon: Icon(Icons.attach_money, size: 16),
-              ),
-            ],
-            selected: {_moneda},
-            onSelectionChanged: (val) {
-              setState(() {
-                _moneda = val.first;
-                _marcarDirty();
-              });
-            },
-            style: ButtonStyle(
-              visualDensity: VisualDensity.compact,
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            const SizedBox(height: 6),
+            SegmentedButton<String>(
+              segments: [
+                ButtonSegment(
+                  value: 'NIO',
+                  label: Text('${Fmt.nombreMonedaLocal} (${Fmt.simboloLocal})'),
+                  icon: const Icon(Icons.monetization_on_outlined, size: 16),
+                ),
+                const ButtonSegment(
+                  value: 'USD',
+                  label: Text('Dólares (US\$)'),
+                  icon: Icon(Icons.attach_money, size: 16),
+                ),
+              ],
+              selected: {_moneda},
+              onSelectionChanged: (val) {
+                setState(() {
+                  _moneda = val.first;
+                  _marcarDirty();
+                });
+              },
+              style: ButtonStyle(
+                visualDensity: VisualDensity.compact,
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
-          ),
+            const SizedBox(height: 14),
+          ],
+          if (_moneda == 'USD' && !esDolarizado) ...[
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF0FDFA),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFF99F6E4)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.currency_exchange, size: 18, color: _tealColor),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Tasa: 1 US\$ = ${tasaUsd.toStringAsFixed(2)} ${Fmt.simboloLocal}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF0F766E),
+                          ),
+                        ),
+                      ),
+                      if (montoParsed > 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF0F766E),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            '≈ ${Fmt.cordobas(montoParsed * tasaUsd)}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    '¿Cómo querés registrar este préstamo?',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF1E293B),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  InkWell(
+                    onTap: () => setState(() {
+                      _guardarConvertidoAMonedaLocal = false;
+                      _marcarDirty();
+                    }),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: !_guardarConvertidoAMonedaLocal ? Colors.white : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: !_guardarConvertidoAMonedaLocal ? _tealColor : const Color(0xFFCBD5E1),
+                          width: !_guardarConvertidoAMonedaLocal ? 1.5 : 1,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            !_guardarConvertidoAMonedaLocal
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_off,
+                            size: 18,
+                            color: !_guardarConvertidoAMonedaLocal ? _tealColor : Colors.grey,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  '💵 Opción 1: Guardar en Dólares (US\$)',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1E293B),
+                                  ),
+                                ),
+                                Text(
+                                  'El préstamo se guarda en US\$. En cobranza permite pagar en US\$ o en ${Fmt.simboloLocal}.',
+                                  style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  InkWell(
+                    onTap: () => setState(() {
+                      _guardarConvertidoAMonedaLocal = true;
+                      _marcarDirty();
+                    }),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: _guardarConvertidoAMonedaLocal ? Colors.white : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: _guardarConvertidoAMonedaLocal ? _tealColor : const Color(0xFFCBD5E1),
+                          width: _guardarConvertidoAMonedaLocal ? 1.5 : 1,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _guardarConvertidoAMonedaLocal
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_off,
+                            size: 18,
+                            color: _guardarConvertidoAMonedaLocal ? _tealColor : Colors.grey,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '🔄 Opción 2: Convertir y fijar en ${Fmt.nombreMonedaLocal} (${Fmt.simboloLocal})',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1E293B),
+                                  ),
+                                ),
+                                Text(
+                                  'Convierte capital y cuotas a ${Fmt.simboloLocal} con la tasa actual y se guarda en moneda local. También permite cobrar en ${Fmt.simboloLocal} o en US\$.',
+                                  style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+          ],
           const SizedBox(height: 18),
 
           // Cantidad a Prestar
           Text(
-            'Cantidad a Prestar (${_moneda == "NIO" ? "C\$" : "US\$"})',
+            'Cantidad a Prestar (${_moneda == "NIO" ? Fmt.simboloLocal : "US\$"})',
             style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -1030,7 +1220,7 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
             children: [2000, 5000, 10000, 20000, 50000].map((val) {
               return ActionChip(
                 label: Text(
-                  _moneda == 'NIO' ? 'C\$ $val' : '\$ $val',
+                  _moneda == 'NIO' ? '${Fmt.simboloLocal} $val' : '\$ $val',
                   style: const TextStyle(fontSize: 11),
                 ),
                 onPressed: () {
@@ -1396,6 +1586,8 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
   Widget _buildResultadosCard() {
     final calculo = _calculoActual;
     final cuotasNum = calculo.plazoCuotas;
+    final tasaUsd = ref.watch(appSettingsProvider).tasaUsd;
+    final esUsd = _moneda == 'USD' && !Fmt.esPaisDolarizado && tasaUsd > 0;
 
     return Container(
       padding: const EdgeInsets.all(22),
@@ -1457,6 +1649,17 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
               letterSpacing: -0.5,
             ),
           ),
+          if (esUsd) ...[
+            const SizedBox(height: 2),
+            Text(
+              '≈ ${Fmt.cordobas(calculo.montoCuota * tasaUsd)} en moneda local',
+              style: const TextStyle(
+                color: Color(0xFFCCFBF1),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
           const SizedBox(height: 6),
           Text(
             'Cada ${_frecuencia.periodo} hasta cancelar',
@@ -1473,6 +1676,7 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
                   titulo: 'Total a Pagar',
                   subtitulo: 'Capital + Intereses',
                   valor: _formatearMonto(calculo.totalPagar),
+                  equivalente: esUsd ? '≈ ${Fmt.cordobas(calculo.totalPagar * tasaUsd)}' : null,
                   icono: Icons.account_balance_wallet_outlined,
                 ),
               ),
@@ -1482,6 +1686,7 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
                   titulo: 'Solo Intereses',
                   subtitulo: 'Ganancia por crédito',
                   valor: _formatearMonto(calculo.totalInteres),
+                  equivalente: esUsd ? '≈ ${Fmt.cordobas(calculo.totalInteres * tasaUsd)}' : null,
                   icono: Icons.trending_up,
                 ),
               ),
@@ -1495,6 +1700,7 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
                   titulo: 'Capital Prestado',
                   subtitulo: 'Monto base',
                   valor: _formatearMonto(calculo.montoPrestado),
+                  equivalente: esUsd ? '≈ ${Fmt.cordobas(calculo.montoPrestado * tasaUsd)}' : null,
                   icono: Icons.attach_money,
                 ),
               ),
@@ -1520,6 +1726,7 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
     required String subtitulo,
     required String valor,
     required IconData icono,
+    String? equivalente,
   }) {
     return Container(
       padding: const EdgeInsets.all(12),
@@ -1553,6 +1760,15 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          if (equivalente != null)
+            Text(
+              equivalente,
+              style: const TextStyle(
+                color: Color(0xFF99F6E4),
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           Text(
             subtitulo,
             style: const TextStyle(
@@ -1569,6 +1785,8 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
   Widget _buildCronogramaSection() {
     final calculo = _calculoActual;
     final cronograma = calculo.cronograma;
+    final tasaUsd = ref.watch(appSettingsProvider).tasaUsd;
+    final esUsd = _moneda == 'USD' && !Fmt.esPaisDolarizado && tasaUsd > 0;
 
     return Container(
       decoration: BoxDecoration(
@@ -1660,12 +1878,26 @@ class _ContratoFormScreenState extends ConsumerState<ContratoFormScreen> {
                       )),
                       DataCell(Text(
                           DateFormat('dd/MM/yyyy').format(c.fechaVencimiento))),
-                      DataCell(Text(
-                        _formatearMonto(c.cuota),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: _tealColor,
-                        ),
+                      DataCell(Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _formatearMonto(c.cuota),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: _tealColor,
+                            ),
+                          ),
+                          if (esUsd)
+                            Text(
+                              '≈ ${Fmt.cordobas(c.cuota * tasaUsd)}',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                        ],
                       )),
                       DataCell(Text(_formatearMonto(c.capital))),
                       DataCell(Text(

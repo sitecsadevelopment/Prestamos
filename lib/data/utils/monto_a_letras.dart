@@ -1,3 +1,6 @@
+import 'formatters.dart';
+import 'monedas_pais.dart';
+
 /// Convierte un monto numérico a texto en español (convenciones nicaragüenses)
 /// para uso en recibos de cobranza.
 ///
@@ -37,13 +40,16 @@ String montoALetras(double monto, {String moneda = 'NIO'}) {
 // ---------------------------------------------------------------------------
 
 (String singular, String plural) _nombreMoneda(String moneda) {
-  switch (moneda.toUpperCase()) {
-    case 'USD':
-      return ('DÓLAR', 'DÓLARES');
-    case 'NIO':
-    default:
-      return ('CÓRDOBA', 'CÓRDOBAS');
+  final norm = moneda.trim().toUpperCase();
+  if (norm == 'USD') {
+    return ('DÓLAR', 'DÓLARES');
   }
+  if (norm == 'NIO') {
+    final actual = Fmt.monedaActual;
+    return (actual.nombreSingular.toUpperCase(), actual.nombrePluralLetras);
+  }
+  final m = monedaPaisPorCodigo(norm);
+  return (m.nombreSingular.toUpperCase(), m.nombrePluralLetras);
 }
 
 const _unidades = [

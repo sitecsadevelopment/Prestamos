@@ -471,7 +471,7 @@ class ReciboTicket extends StatelessWidget {
             bold: true),
         if (totalVuelto > 0.01) ...[
           SizedBox(height: 4 * k),
-          _totalLine(esUsd ? 'VUELTO (en C\$)' : 'VUELTO',
+          _totalLine(esUsd ? 'VUELTO (en ${Fmt.simboloLocal})' : 'VUELTO',
               Fmt.cordobas(totalVuelto), 13 * k,
               bold: true),
           SizedBox(height: 2 * k),
@@ -500,7 +500,7 @@ class ReciboTicket extends StatelessWidget {
       // (PAGADO == COBRADO en ese caso).
       if (vuelto > 0.01) ...[
         SizedBox(height: 4 * k),
-        _totalLine(esUsd ? 'VUELTO (en C\$)' : 'VUELTO', Fmt.cordobas(vuelto),
+        _totalLine(esUsd ? 'VUELTO (en ${Fmt.simboloLocal})' : 'VUELTO', Fmt.cordobas(vuelto),
             13 * k,
             bold: true),
         SizedBox(height: 4 * k),

@@ -176,6 +176,7 @@ class _CotizacionDialogState extends ConsumerState<_CotizacionDialog> {
       fechaEmision: DateTime.now(),
       fechaPrimerPago: widget.fechaPrimerPago,
       cronograma: widget.cronograma,
+      tasaCambioUsd: settings.tasaUsd,
       logoBytes: logoBytes,
     );
 
@@ -192,21 +193,31 @@ class _CotizacionDialogState extends ConsumerState<_CotizacionDialog> {
         : 'Estimado/a Cliente';
     final fechaFmt = DateFormat('dd/MM/yyyy');
 
+    final tasaUsd = settings.tasaUsd;
+    final mostrarConv =
+        widget.moneda == 'USD' && !Fmt.esPaisDolarizado && tasaUsd > 0;
+    String fmtMsg(double v) => mostrarConv
+        ? '${Fmt.monto(v, widget.moneda)} (≈ ${Fmt.cordobas(v * tasaUsd)})'
+        : Fmt.monto(v, widget.moneda);
+
     final buffer = StringBuffer();
     buffer.writeln('📄 *COTIZACIÓN DE PRÉSTAMO*');
     buffer.writeln('🏢 *$empresa*');
     buffer.writeln('--------------------------------');
     buffer.writeln('👤 *Cliente:* $cliente');
-    buffer.writeln('💰 *Monto Solicitado:* ${Fmt.monto(widget.monto, widget.moneda)}');
+    buffer.writeln('💰 *Monto Solicitado:* ${fmtMsg(widget.monto)}');
     buffer.writeln(
         '📊 *Tasa de Interés:* ${widget.tasaInteres}% ${widget.tasaEsMensual ? "por período" : "total"}');
     buffer.writeln(
         '⏱️ *Plazo:* ${widget.plazoCuotas} cuotas (${widget.frecuencia.etiqueta})');
     buffer.writeln('📐 *Modalidad:* ${widget.metodo.titulo}');
     buffer.writeln('--------------------------------');
-    buffer.writeln('💵 *VALOR DE LA CUOTA:* ${Fmt.monto(widget.montoCuota, widget.moneda)}');
-    buffer.writeln('📈 *Total Intereses:* ${Fmt.monto(widget.totalInteres, widget.moneda)}');
-    buffer.writeln('💳 *TOTAL A PAGAR:* ${Fmt.monto(widget.totalPagar, widget.moneda)}');
+    buffer.writeln('💵 *VALOR DE LA CUOTA:* ${fmtMsg(widget.montoCuota)}');
+    buffer.writeln('📈 *Total Intereses:* ${fmtMsg(widget.totalInteres)}');
+    buffer.writeln('💳 *TOTAL A PAGAR:* ${fmtMsg(widget.totalPagar)}');
+    if (mostrarConv) {
+      buffer.writeln('💱 *Tasa de Cambio:* 1 US\$ = ${Fmt.cordobas(tasaUsd)}');
+    }
     buffer.writeln('📅 *Primer Pago:* ${fechaFmt.format(widget.fechaPrimerPago)}');
     buffer.writeln('--------------------------------');
 
@@ -270,7 +281,7 @@ class _CotizacionDialogState extends ConsumerState<_CotizacionDialog> {
       final rawTel = telTexto.replaceAll(RegExp(r'[^0-9]'), '');
       var phone = rawTel;
       if (phone.length == 8) {
-        phone = '505$phone';
+        phone = '${Fmt.monedaActual.prefijoTel}$phone';
       }
 
       final encoded = Uri.encodeComponent(texto);
@@ -616,7 +627,7 @@ class _CotizacionDialogState extends ConsumerState<_CotizacionDialog> {
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText: 'WhatsApp / Teléfono *',
-                          hintText: 'Ej. 88889999 o +50588889999',
+                          hintText: 'Ej. 88889999 o +${Fmt.monedaActual.prefijoTel}88889999',
                           prefixIcon: const Icon(Icons.phone_android),
                           helperText: 'Autocompleta +505 si son 8 dígitos',
                           helperStyle: const TextStyle(fontSize: 10.5),

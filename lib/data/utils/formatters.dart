@@ -1,9 +1,13 @@
 import 'package:intl/intl.dart';
 
+import 'monedas_pais.dart';
+
 class Fmt {
-  static final _nio = NumberFormat.currency(
+  static MonedaPais _monedaPais = kMonedaPaisDefault;
+
+  static NumberFormat _nio = NumberFormat.currency(
     locale: 'es_NI',
-    symbol: 'C\$',
+    symbol: kMonedaPaisDefault.simbolo,
     decimalDigits: 2,
   );
 
@@ -12,6 +16,31 @@ class Fmt {
     symbol: 'US\$',
     decimalDigits: 2,
   );
+
+  /// Moneda/país activo del tenant (por defecto Nicaragua `C$`).
+  static MonedaPais get monedaActual => _monedaPais;
+
+  /// Símbolo de la moneda local activa (ej. `'C$'`, `'L'`, `'Q'`, `'S/'`).
+  static String get simboloLocal => _monedaPais.simbolo;
+
+  /// Nombre singular de la moneda local activa (ej. `'Córdoba'`, `'Lempira'`).
+  static String get nombreMonedaLocal => _monedaPais.nombreSingular;
+
+  /// `true` si el país configurado ya opera directamente en Dólares (`USD`).
+  static bool get esPaisDolarizado => _monedaPais.esDolarizada;
+
+  /// Actualiza en caliente el formateador de moneda local según el país elegido.
+  static void configurarMoneda(MonedaPais nueva) {
+    if (_monedaPais.id == nueva.id && _monedaPais.simbolo == nueva.simbolo) {
+      return;
+    }
+    _monedaPais = nueva;
+    _nio = NumberFormat.currency(
+      locale: 'es_NI',
+      symbol: nueva.simbolo,
+      decimalDigits: 2,
+    );
+  }
 
   static final _entero = NumberFormat.decimalPattern('es_NI');
 

@@ -87,6 +87,7 @@ class _CobroScreenState extends ConsumerState<CobroScreen> {
   void _cambiarMoneda(Moneda nueva, AppSettings settings) {
     if (nueva == _moneda) return;
     setState(() {
+
       _moneda = nueva;
       _tasaSnapshot = settings.tasaUsd;
       // Reset del campo: si el cobrador escribió "500" en NIO y cambia a USD,
@@ -103,6 +104,7 @@ class _CobroScreenState extends ConsumerState<CobroScreen> {
     // Día de pago del contrato de cada cuota — para el mes de servicio en las
     // tarjetas. null para cuotas manuales (sin contrato).
     final dias = <int?>[];
+    bool tieneContratoUsd = false;
 
     for (final id in widget.cuotaIds) {
       final cuota = await repo.getById(id);
@@ -112,11 +114,12 @@ class _CobroScreenState extends ConsumerState<CobroScreen> {
       int? diaPago;
       if (cuota.contratoId != null) {
         final ctRows = await ps.db.getAll(
-          'SELECT dia_pago FROM contratos WHERE id = ?',
+          'SELECT dia_pago, moneda FROM contratos WHERE id = ?',
           [cuota.contratoId],
         );
         if (ctRows.isNotEmpty) {
           diaPago = (ctRows.first['dia_pago'] as num?)?.toInt();
+          if ((ctRows.first['moneda'] as String?) == 'USD') tieneContratoUsd = true;
         }
       }
       dias.add(diaPago);
@@ -205,6 +208,8 @@ class _CobroScreenState extends ConsumerState<CobroScreen> {
 
     if (!mounted) return;
     setState(() {
+
+      if (tieneContratoUsd || Fmt.esPaisDolarizado) _moneda = Moneda.usd;
       _cuotas.addAll(cuotas);
       _totalesBase.addAll(totales);
       _totalesACobrar.addAll(List.filled(totales.length, 0.0));
@@ -392,6 +397,7 @@ class _CobroScreenState extends ConsumerState<CobroScreen> {
     }
 
     setState(() {
+
       _enviando = true;
       _error = null;
     });
@@ -784,6 +790,7 @@ class _CobroScreenState extends ConsumerState<CobroScreen> {
             settings: settings,
             onSelected: (m) {
               setState(() {
+
                 _metodo = m;
                 // Si el método ya no requiere comprobante, descartar
                 // la foto adjunta para no asociarla a un pago en efectivo.
@@ -811,7 +818,7 @@ class _CobroScreenState extends ConsumerState<CobroScreen> {
               // CobroCalculo.distribuirMulti (pura + testeada).
               // USD solo con efectivo: el dólar es plata en mano (no hay
               // transferencias en USD en este flujo). Con otro método, NIO fijo.
-              if (settings.usdHabilitado && _metodo == MetodoPago.efectivo)
+              if (!Fmt.esPaisDolarizado && (settings.usdHabilitado || _moneda == Moneda.usd))
                 _MonedaToggle(
                   actual: _moneda,
                   onChanged: (m) => _cambiarMoneda(m, settings),
@@ -1364,9 +1371,9 @@ class _MonedaToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SegmentedButton<Moneda>(
-      segments: const [
-        ButtonSegment(value: Moneda.nio, label: Text('C\$')),
-        ButtonSegment(value: Moneda.usd, label: Text('US\$')),
+      segments: [
+        ButtonSegment(value: Moneda.nio, label: Text(Fmt.simboloLocal)),
+        const ButtonSegment(value: Moneda.usd, label: Text('US\$')),
       ],
       selected: {actual},
       onSelectionChanged: (s) => onChanged(s.first),

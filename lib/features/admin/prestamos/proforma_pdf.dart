@@ -40,6 +40,7 @@ Future<pw.Document> buildProformaPrestamoPdf({
   required DateTime fechaEmision,
   required DateTime fechaPrimerPago,
   required List<CuotaAmortizacion> cronograma,
+  double? tasaCambioUsd,
   Uint8List? logoBytes,
 }) async {
   final pdf = pw.Document();
@@ -50,7 +51,15 @@ Future<pw.Document> buildProformaPrestamoPdf({
   final codigoCotizacion =
       'COT-${fechaEmision.millisecondsSinceEpoch.toRadixString(36).toUpperCase()}';
 
+  final mostrarConv = moneda == 'USD' &&
+      !Fmt.esPaisDolarizado &&
+      tasaCambioUsd != null &&
+      tasaCambioUsd > 0;
+
   String fmtDinero(num valor) => Fmt.monto(valor, moneda);
+  String fmtConEquiv(num valor) => mostrarConv
+      ? '${fmtDinero(valor)}\n(≈ ${Fmt.cordobas(valor * tasaCambioUsd)})'
+      : fmtDinero(valor);
 
   pdf.addPage(
     pw.MultiPage(
@@ -298,7 +307,7 @@ Future<pw.Document> buildProformaPrestamoPdf({
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  _datoFinanciero('MONTO PRESTADO', fmtDinero(montoPrestado),
+                  _datoFinanciero('MONTO PRESTADO', fmtConEquiv(montoPrestado),
                       destacado: true),
                   _datoFinanciero(
                       'PLAZO TOTAL', '$plazoCuotas cuotas ($frecuencia)'),
@@ -316,17 +325,28 @@ Future<pw.Document> buildProformaPrestamoPdf({
                 children: [
                   _datoFinanciero(
                     'CUOTA PERIÓDICA',
-                    fmtDinero(montoCuota),
+                    fmtConEquiv(montoCuota),
                     destacado: true,
                     colorTexto: _primaryColor,
                   ),
-                  _datoFinanciero('TOTAL INTERESES', fmtDinero(totalInteres)),
-                  _datoFinanciero('TOTAL A PAGAR', fmtDinero(totalPagar),
+                  _datoFinanciero('TOTAL INTERESES', fmtConEquiv(totalInteres)),
+                  _datoFinanciero('TOTAL A PAGAR', fmtConEquiv(totalPagar),
                       destacado: true),
                   _datoFinanciero(
                       'PRIMER PAGO', fechaFmt.format(fechaPrimerPago)),
                 ],
               ),
+              if (mostrarConv) ...[
+                pw.SizedBox(height: 6),
+                pw.Text(
+                  'Tasa de cambio referencial aplicada: 1 US\$ = ${Fmt.cordobas(tasaCambioUsd)} (${Fmt.nombreMonedaLocal})',
+                  style: pw.TextStyle(
+                    fontSize: 8,
+                    fontWeight: pw.FontWeight.bold,
+                    color: _primaryColor,
+                  ),
+                ),
+              ],
             ],
           ),
         ),

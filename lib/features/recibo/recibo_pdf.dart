@@ -619,7 +619,7 @@ List<pw.Widget> _pdfBloqueMulti(
             child: pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
-                pw.Text(esUsd ? 'VUELTO (en C\$)' : 'VUELTO',
+                pw.Text(esUsd ? 'VUELTO (en ${Fmt.simboloLocal})' : 'VUELTO',
                     style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold, fontSize: 9 * k)),
                 pw.Text(Fmt.cordobas(totalVuelto),
@@ -825,7 +825,7 @@ List<pw.Widget> _vueltoIfNeeded(Map<String, dynamic> row, [double k = 1]) {
       child: pw.Row(
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         children: [
-          pw.Text(esUsd ? 'VUELTO (en C\$)' : 'VUELTO',
+          pw.Text(esUsd ? 'VUELTO (en ${Fmt.simboloLocal})' : 'VUELTO',
               style: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold, fontSize: 9 * k)),
           pw.Text(Fmt.cordobas(vuelto),

@@ -1,3 +1,5 @@
+import 'formatters.dart';
+
 /// Validators centralizados para `TextFormField.validator` y checks
 /// imperativos (R13).
 ///
@@ -65,9 +67,11 @@ String sanitizePhoneForWhatsApp(String s) {
 /// Teléfono en formato INTERNACIONAL para wa.me (Nicaragua = 505). Deja solo
 /// dígitos y, si son 8 (número local nica), antepone 505. Si ya trae código de
 /// país (≠ 8 dígitos), lo deja como está. wa.me/<n> EXIGE el código de país.
-String phoneWhatsappIntl(String s) {
+String phoneWhatsappIntl(String s, [String? prefijoPais]) {
   final d = s.replaceAll(_phoneDigitsOnlyStripRegex, '');
-  if (d.length == 8) return '505$d';
+  if (d.isEmpty) return d;
+  final prefijo = prefijoPais ?? Fmt.monedaActual.prefijoTel;
+  if (d.length <= 8 && !d.startsWith(prefijo)) return '$prefijo$d';
   return d;
 }
 

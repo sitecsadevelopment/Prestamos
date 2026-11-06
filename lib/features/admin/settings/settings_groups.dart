@@ -57,6 +57,7 @@ const kGruposEmpresa = <SettingGroup>[
     icono: Icons.business,
     entradas: [
       SettingEntry('empresa.nombre'),
+      SettingEntry('moneda.principal'),
       SettingEntry('empresa.direccion'),
       SettingEntry('empresa.telefono'),
       SettingEntry('empresa.ruc'),
@@ -103,9 +104,10 @@ const kGruposPagos = <SettingGroup>[
     ],
   ),
   SettingGroup(
-    titulo: 'Moneda extranjera (Dólares)',
+    titulo: 'Moneda del país y Dólares (USD)',
     icono: Icons.attach_money,
     entradas: [
+      SettingEntry('moneda.principal'),
       SettingEntry(
         'pagos.usd_habilitado',
         hijos: ['pagos.tasa_usd_cordoba'],

@@ -13,6 +13,8 @@ import '../../../data/repositories/settings_repo.dart';
 import '../../../data/services/logo_cache_service.dart';
 import '../../../data/services/logo_local_storage.dart';
 import '../../../data/utils/cuota_estado_visual.dart';
+import '../../../data/utils/formatters.dart';
+import '../../../data/utils/monedas_pais.dart';
 import '../../../data/utils/montos.dart';
 import '../../../data/utils/op_log.dart';
 import '../../../powersync/db.dart' as ps;
@@ -301,11 +303,26 @@ class _CategoriaTab extends ConsumerWidget {
     String clave,
     dynamic nuevo,
   ) async {
-    await ref.read(settingsRepoProvider).update(tenantId, clave, nuevo,
+    if (clave == 'moneda.principal') {
+      Fmt.configurarMoneda(monedaPaisPorCodigo(nuevo?.toString()));
+    }
+    if (!settings.containsKey(clave)) {
+      await ref.read(settingsRepoProvider).upsert(
+            tenantId,
+            clave,
+            nuevo,
+            tipo: 'string',
+            categoria: clave == 'moneda.principal' ? 'moneda' : categoria,
+            editablePor: 'admin',
+            usuarioId: ref.read(cobradorActualProvider).valueOrNull?.id,
+          );
+    } else {
+      await ref.read(settingsRepoProvider).update(tenantId, clave, nuevo,
         // Atribuir el cambio al admin real; sin usuarioId el op_log lo registra
         // como "System Admin" (audit 2026-06-30). Para super_admin resuelve solo
         // a systemAdmin. op_log es el ÚNICO change log desde 0140.
         usuarioId: ref.read(cobradorActualProvider).valueOrNull?.id);
+    }
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -334,7 +351,7 @@ class _CategoriaTab extends ConsumerWidget {
     bool visible(String clave) =>
         !_hidden.contains(clave) &&
         (esSuperAdmin || !_superAdminOnly.contains(clave)) &&
-        settings.containsKey(clave);
+        (settings.containsKey(clave) || clave == 'moneda.principal');
 
     // Avanzado: render AGRUPADO por categoría de dominio (5 bandas con su propio
     // encabezado y mini-grilla), no la grilla global que mezclaba secciones de
@@ -533,7 +550,17 @@ class _CategoriaTab extends ConsumerWidget {
   /// Tile editor de un setting (toggle/number/text/dropdown) ya envuelto con
   /// guardado + snackbar. `puedeEditar` respeta admin vs admin_cobranza.
   Widget _settingTile(BuildContext context, WidgetRef ref, String clave) {
-    final s = settings[clave]!;
+    final s = settings[clave] ??
+        Setting(
+          id: 'default-$clave',
+          tenantId: tenantId,
+          clave: clave,
+          valor: 'NIO',
+          tipo: 'string',
+          categoria: 'moneda',
+          descripcion: 'País y moneda principal del negocio',
+          editablePor: 'admin',
+        );
     // `lectura` (0198) no edita ningún setting, ni siquiera los abiertos a
     // admin_cobranza — entre ellos está la tasa del dólar, que ensucia todos
     // los montos en córdobas mientras esté mal.
@@ -2644,6 +2671,10 @@ class _SettingTileState extends State<_SettingTile> {
   String? _descripcionOverride(String clave) {
     return switch (clave) {
       'empresa.nombre' => 'Nombre comercial de la empresa',
+      'moneda.principal' =>
+        'Define el país y símbolo de moneda local en toda la aplicación (América). Los préstamos y cobros en US\$ se convierten usando la tasa de cambio.',
+      'pagos.tasa_usd_cordoba' =>
+        'Equivalencia de 1 Dólar (US\$) en ${Fmt.nombreMonedaLocal} (${Fmt.simboloLocal}) para préstamos y cobros.',
       'caja_chica.habilitada' =>
         'Permite asignar caja chica diaria al cobrador y reconciliar '
             'efectivo al final del día. (Feature en desarrollo)',
@@ -2657,7 +2688,7 @@ class _SettingTileState extends State<_SettingTile> {
 
   // Etiquetas legibles para las claves más comunes.
   String _label(String clave) {
-    const labels = <String, String>{
+    final labels = <String, String>{
       'empresa.nombre': 'Nombre comercial',
       'empresa.direccion': 'Dirección',
       'empresa.telefono': 'Teléfono',
@@ -2707,8 +2738,9 @@ class _SettingTileState extends State<_SettingTile> {
       'pagos.metodo_transferencia': 'Aceptar transferencia',
       'pagos.metodo_tarjeta': 'Aceptar tarjeta',
       'pagos.usd_habilitado': 'Aceptar pagos en USD',
-      'pagos.tasa_usd_cordoba': 'Tasa USD → C\$',
-      'moneda.principal': 'Moneda principal',
+      'pagos.tasa_usd_cordoba': 'Tasa USD → ${Fmt.simboloLocal}',
+      'moneda.principal': 'País y moneda principal',
+
       'recibo.formato_default_mm': 'Ancho de papel (mm)',
       'recibo.template_57mm': 'Template 57mm',
       'recibo.template_80mm': 'Template 80mm',
@@ -2723,7 +2755,7 @@ class _SettingTileState extends State<_SettingTile> {
       'recibo.mostrar_hora': 'Mostrar hora del cobro',
       'cobranza.ajustes_habilitados': 'Permitir ajustes de cuota',
       'cobranza.ajuste_max_porcentaje': 'Tope % por ajuste (0 = sin tope)',
-      'cobranza.ajuste_max_monto': 'Tope C\$ por ajuste (0 = sin tope)',
+      'cobranza.ajuste_max_monto': 'Tope ${Fmt.simboloLocal} por ajuste (0 = sin tope)',
       'cuotas.descuento_pronto_pago': 'Descuento pronto pago (0 = apagado)',
       'cuotas.descuento_pronto_pago_tipo': 'Tipo de descuento pronto pago',
     };
@@ -2740,15 +2772,17 @@ class _SettingTileState extends State<_SettingTile> {
     return switch (clave) {
       'cuotas.descuento_pronto_pago_tipo' => [
         ('porcentaje', 'Porcentaje (%)'),
-        ('monto', 'Monto fijo (C\$)'),
+        ('monto', 'Monto fijo (${Fmt.simboloLocal})'),
       ],
       'cobranza.modo_ruta' => [
         ('libre', 'Libre'),
         ('planificada', 'Planificada'),
       ],
       'moneda.principal' => [
-        ('NIO', 'Córdobas (NIO)'),
-        ('USD', 'Dólares (USD)'),
+        for (final m in kMonedasAmerica) (m.id, m.etiquetaSelector),
+      // fin catálogo América
+      // reemplazado por kMonedasAmerica
+      // fin opciones moneda.principal
       ],
       _ => null,
     };

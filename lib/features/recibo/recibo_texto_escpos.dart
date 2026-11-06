@@ -729,7 +729,7 @@ List<int> _bloqueSingle(
       return [
         ..._total(gen, 'Monto', Fmt.cordobas(r['monto_cordobas'] as num)),
         if (vuelto > 0.01) ...[
-          ..._total(gen, esUsd ? 'VUELTO (en C\$)' : 'VUELTO',
+          ..._total(gen, esUsd ? 'VUELTO (en ${Fmt.simboloLocal})' : 'VUELTO',
               Fmt.cordobas(vuelto)),
           ..._total(
               gen,
@@ -843,7 +843,7 @@ List<int> _bloqueMulti(
       return [
         ..._total(gen, 'Total cobrado', Fmt.cordobas(totalCobrado)),
         if (totalVuelto > 0.01) ...[
-          ..._total(gen, esUsd ? 'VUELTO (en C\$)' : 'VUELTO',
+          ..._total(gen, esUsd ? 'VUELTO (en ${Fmt.simboloLocal})' : 'VUELTO',
               Fmt.cordobas(totalVuelto)),
           ..._total(
               gen,

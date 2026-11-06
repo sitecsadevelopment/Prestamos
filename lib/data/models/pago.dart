@@ -1,3 +1,5 @@
+import '../utils/formatters.dart';
+
 enum MetodoPago {
   efectivo,
   transferencia,
@@ -39,7 +41,7 @@ enum Moneda {
       };
 
   String get symbol => switch (this) {
-        Moneda.nio => 'C\$',
+        Moneda.nio => Fmt.simboloLocal,
         Moneda.usd => 'US\$',
       };
 }

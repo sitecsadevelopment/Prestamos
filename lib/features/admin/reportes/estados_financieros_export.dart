@@ -1,4 +1,4 @@
-﻿import 'package:excel/excel.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../data/models/prestamos_models.dart';
@@ -174,13 +174,13 @@ List<int> construirEstadosFinancierosExcelBytes({
   // Encabezado
   put(0, 0, TextCellValue(empresaNombre.toUpperCase()), titleStyle);
   put(0, 1, TextCellValue('ESTADOS FINANCIEROS Y SITUACIÓN DE CARTERA'), subtitleStyle);
-  put(0, 2, TextCellValue('Fecha de corte: $fechaFormateada   |   Moneda: C\$ (Córdobas)'), subtitleStyle);
+  put(0, 2, TextCellValue('Fecha de corte: $fechaFormateada   |   Moneda: ${Fmt.simboloLocal} (${Fmt.nombreMonedaLocal})'), subtitleStyle);
 
   var r = 4;
 
   // 1. ESTADO DE SITUACIÓN FINANCIERA (BALANCE GENERAL)
   put(0, r, TextCellValue('1. ESTADO DE SITUACIÓN FINANCIERA (BALANCE GENERAL)'), sectionHeader);
-  put(1, r, TextCellValue('MONTO (C\$)'), sectionHeader);
+  put(1, r, TextCellValue('MONTO (${Fmt.simboloLocal})'), sectionHeader);
   r++;
 
   put(0, r, TextCellValue('ACTIVO DISPONIBLE Y LIQUIDEZ'), subSectionHeader);
@@ -241,7 +241,7 @@ List<int> construirEstadosFinancierosExcelBytes({
 
   // 2. ESTADO DE RESULTADOS (RENDIMIENTO OPERATIVO)
   put(0, r, TextCellValue('2. ESTADO DE RESULTADOS (RENDIMIENTO OPERATIVO)'), sectionHeader);
-  put(1, r, TextCellValue('MONTO (C\$)'), sectionHeader);
+  put(1, r, TextCellValue('MONTO (${Fmt.simboloLocal})'), sectionHeader);
   r++;
   put(0, r, TextCellValue('INGRESOS OPERATIVOS'), subSectionHeader);
   r++;
@@ -276,7 +276,7 @@ List<int> construirEstadosFinancierosExcelBytes({
 
   // 3. ESTADO DE FLUJO DE EFECTIVO Y CAJA
   put(0, r, TextCellValue('3. ESTADO DE FLUJO DE EFECTIVO Y LIQUIDEZ'), sectionHeader);
-  put(1, r, TextCellValue('MONTO (C\$)'), sectionHeader);
+  put(1, r, TextCellValue('MONTO (${Fmt.simboloLocal})'), sectionHeader);
   r++;
   put(0, r, TextCellValue('  Caja inicial'));
   put(1, r, DoubleCellValue(caja.cajaInicial), money);
@@ -402,7 +402,7 @@ List<int> construirEstadosFinancierosDocxBytes({
   ];
 
   doc.addTable(
-    headers: ['Rubro / Concepto Contable', 'Monto en Córdobas (C\$)'],
+    headers: ['Rubro / Concepto Contable', 'Monto en ${Fmt.nombreMonedaLocal} (${Fmt.simboloLocal})'],
     rows: balanceRows,
     colWidthsPct: [70, 30],
     alignments: ['left', 'right'],

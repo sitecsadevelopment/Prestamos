@@ -22,6 +22,16 @@
 ---
 
 ## ⭐ ESTADO ACTUAL (refrescar al cerrar cada sesión)
+- **👉 (2026-11-05) — Moneda Internacional en Toda América + Préstamos en Dólares (Integrado en `main`):**
+  · **Catálogo de 29 Monedas de América (`monedas_pais.dart`):** Cobertura completa de Centroamérica, Norteamérica, Caribe y Sudamérica con banderas, códigos ISO, símbolos dinámicos (`Q`, `L`, `C$`, `S/`, `RD$`, `US$`, `Bs.`, `₡`, `$`, etc.), nombres singulares/plurales en letras, códigos de marcación telefónica internacional para WhatsApp y bandera de dolarización (`esDolarizada`). Fallback seguro a Nicaragua (`C$`).
+  · **Ajustes de Empresa y Formateo Reactivo (`settings_admin_screen.dart`, `settings_groups.dart`, `settings_repo.dart`, `formatters.dart`, `monto_a_letras.dart`, `pago.dart`, `app.dart`):** Dropdown con selector de país/moneda en Ajustes. Sincronización automática de `Fmt.configurarMoneda` a nivel raíz en `app.dart` manteniendo todos los formateadores, montos en letras y símbolos de la app reactivos.
+  · **Modalidad de Préstamos en Dólares (`contrato_form_screen.dart`):** Al originar un préstamo en `US$`, se muestra banner de tipo de cambio en vivo (`1 US$ = X Moneda Local`) y selector para que el usuario decida:
+    - *Opción 1:* 💵 Guardar en Dólares (`US$`) — Capital, intereses y cuotas se registran en `USD`.
+    - *Opción 2:* 🔄 Convertir y fijar en Moneda Local — Se convierten capital, intereses y cuotas al tipo de cambio actual y se guardan en moneda local (`NIO`), congelando el monto frente a fluctuaciones.
+  · **Cobro Bimoneda en Terreno (`cobro_screen.dart`):** Tanto para préstamos en Dólares (Opción 1) como para préstamos en Moneda Local (incluyendo Opción 2), el cobrador puede recibir el pago en Moneda Local (`${Fmt.simboloLocal}`) o en `US$`, adaptando el vuelto en moneda local y respetando estrictamente los invariantes de dinero de Postgres.
+  · **Calculadora, Proforma PDF, Reportes y Recibos (`calculadora_prestamos_screen.dart`, `cotizacion_dialog.dart`, `proforma_pdf.dart`, `reporte_excel.dart`, `estados_financieros_export.dart`, `recibo_pdf.dart`, `recibo_ticket.dart`, `recibo_texto_escpos.dart`):** Adaptación completa a la moneda configurada, prefijos telefónicos internacionales de WhatsApp automáticos según el país, y etiquetas dinámicas de vuelto y subtotal/total en reportes.
+  · **Pruebas y Verificación:** 89/89 tests unitarios pasando en verde (`monedas_pais_test.dart`, `formatters_test.dart`, `reporte_excel_test.dart`, `recibo_texto_escpos_test.dart`, `pago_test.dart`), y `flutter analyze` sin errores.
+
 - **👉 (2026-10-25) — Infraestructura PowerSync Cloud / Supabase operativa:**
   · Tras pausa de la instancia en PowerSync Cloud, se ejecutó redeploy restableciendo DNS, liveness y endpoints de sincronización (`/write-checkpoint2.json`). Supabase verificado 100% activo. Conexión y sincronización de clientes restablecida exitosamente.
 

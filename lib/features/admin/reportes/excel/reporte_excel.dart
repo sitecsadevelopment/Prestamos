@@ -382,9 +382,9 @@ List<int> construirReporteCobranzaBytes({
   put(1, 4, TextCellValue(fechaFinal));
 
   // Tabla.
-  const headers = [
+  final headers = [
     'ID', 'Nombre del Cliente', 'Cobrador', 'Mes', 'Fecha de cobro', 'Recibo #',
-    'Dólar', 'Córdoba', 'Compra de Divisas'
+    'Dólar', Fmt.nombreMonedaLocal, 'Compra de Divisas'
   ];
   const headerRow = 7;
   for (var c = 0; c < headers.length; c++) {
@@ -426,11 +426,11 @@ List<int> construirReporteCobranzaBytes({
   // Totales (arriba a la derecha, como la plantilla).
   // Valores alineados a la ÚLTIMA columna (ahora 8 por la columna nueva
   // "Fecha de cobro"; antes era 7 = "Compra de Divisas").
-  put(3, 3, TextCellValue('SUBTOTAL CÓRDOBAS'), labelStyle);
+  put(3, 3, TextCellValue('SUBTOTAL ${Fmt.monedaActual.nombrePluralLetras}'), labelStyle);
   put(8, 3, DoubleCellValue(subtotalCordobas.toDouble()), money);
   put(3, 4, TextCellValue('CAMBIO COMPRA DE DIVISAS'), labelStyle);
   put(8, 4, DoubleCellValue(totalDivisas.toDouble()), money);
-  put(3, 5, TextCellValue('TOTAL CÓRDOBAS'), labelStyle);
+  put(3, 5, TextCellValue('TOTAL ${Fmt.monedaActual.nombrePluralLetras}'), labelStyle);
   put(8, 5, DoubleCellValue((subtotalCordobas + totalDivisas).toDouble()), money);
   put(3, 6, TextCellValue('TOTAL DÓLARES'), labelStyle);
   put(8, 6, DoubleCellValue(totalDolar.toDouble()), money);

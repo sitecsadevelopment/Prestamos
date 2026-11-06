@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'config/router.dart';
 import 'config/theme.dart';
 import 'data/providers/foto_comprobante_provider.dart';
+import 'data/repositories/settings_repo.dart';
 import 'data/services/foto_comprobante_service.dart';
 
 /// Key global del ScaffoldMessenger raíz. Permite mostrar SnackBars
@@ -27,6 +28,8 @@ class IspBillingApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Mantiene sincronizada la moneda del país (Fmt.simboloLocal) en toda la app.
+    ref.watch(appSettingsProvider);
     // R8: surface errores de upload de fotos al usuario via SnackBar
     // global. El service emite un UploadResult al final de cada corrida
     // con `failed > 0` si alguna falló — mostramos un único banner

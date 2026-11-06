@@ -510,13 +510,13 @@ class _CalculadoraPrestamosScreenState
             ),
             const SizedBox(height: 6),
             SegmentedButton<String>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: 'NIO',
-                  label: Text('Córdobas (C\$)'),
-                  icon: Icon(Icons.monetization_on_outlined, size: 16),
+                  label: Text('${Fmt.nombreMonedaLocal} (${Fmt.simboloLocal})'),
+                  icon: const Icon(Icons.monetization_on_outlined, size: 16),
                 ),
-                ButtonSegment(
+                const ButtonSegment(
                   value: 'USD',
                   label: Text('Dólares (US\$)'),
                   icon: Icon(Icons.attach_money, size: 16),
@@ -538,7 +538,7 @@ class _CalculadoraPrestamosScreenState
             const SizedBox(height: 18),
 
             Text(
-              'Cantidad a Prestar (${_moneda == "NIO" ? "C\$" : "US\$"})',
+              'Cantidad a Prestar (${_moneda == "NIO" ? Fmt.simboloLocal : "US\$"})',
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -569,7 +569,7 @@ class _CalculadoraPrestamosScreenState
               children: [2000, 5000, 10000, 20000, 50000].map((val) {
                 return ActionChip(
                   label: Text(
-                    _moneda == 'NIO' ? 'C\$ $val' : '\$ $val',
+                    _moneda == 'NIO' ? '${Fmt.simboloLocal} $val' : 'US\$ $val',
                     style: const TextStyle(fontSize: 11),
                   ),
                   onPressed: () {

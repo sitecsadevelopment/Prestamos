@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -9,6 +9,8 @@ import '../models/setting.dart';
 import '../providers/cobrador_provider.dart';
 import '../providers/db_epoch_provider.dart';
 import '../utils/cuota_estado_visual.dart';
+import '../utils/formatters.dart';
+import '../utils/monedas_pais.dart';
 import '../utils/op_log.dart';
 
 class SettingsRepo {
@@ -31,7 +33,14 @@ class SettingsRepo {
         final s = Setting.fromRow(r);
         map[s.clave] = s;
       }
-      return map;
+      return () {
+        if (rows.isNotEmpty) {
+          Fmt.configurarMoneda(
+            monedaPaisPorCodigo(settingValue<String>(map, 'moneda.principal', 'NIO')),
+          );
+        }
+        return map;
+      }();
     });
   }
 
@@ -236,7 +245,24 @@ const kAvisoMsgMoraDefault =
 
 /// Acceso tipado a los settings más usados en la app.
 class AppSettings {
-  AppSettings(this._map);
+  AppSettings(this._map) {
+    if (_map != null) {
+      Fmt.configurarMoneda(monedaPais);
+    }
+  }
+
+  /// Código del país/moneda principal configurado por el tenant (default `'NIO'`).
+  String get monedaPrincipal =>
+      settingValue<String>(_map, 'moneda.principal', 'NIO');
+
+  /// Metadatos completos del país y moneda local activos.
+  MonedaPais get monedaPais => monedaPaisPorCodigo(monedaPrincipal);
+
+  /// Símbolo de la moneda local del tenant (ej. `'C$'`, `'L'`, `'Q'`, `'S/'`).
+  String get simboloMoneda => monedaPais.simbolo;
+
+  /// `true` cuando la moneda principal del país ya es el Dólar (`USD`).
+  bool get esPaisDolarizado => monedaPais.esDolarizada;
   final Map<String, Setting>? _map;
 
   int get diasGracia => settingValue<num>(_map, 'cobranza.dias_gracia', 10).toInt();
